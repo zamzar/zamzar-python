@@ -1,0 +1,23 @@
+version: '3'
+services:
+  codegen:
+    entrypoint: [ "/bin/sh", "-c", "sleep infinity" ]
+    image: 'openapitools/openapi-generator-cli:v7.3.0'
+    volumes:
+      - '.:/local'
+    working_dir: '/local'
+  python:
+    build: .
+    depends_on:
+      - mock
+    entrypoint: [ "/bin/sh", "-c", "sleep infinity" ]
+    environment:
+      - API_KEY=GiVUYsF4A8ssq93FR48H
+      - API_URL=http://mock:8080/v1
+    volumes:
+      - '.:/usr/src/app'
+    working_dir: '/usr/src/app'
+  mock:
+    image: zamzar/zamzar-mock:latest
+    ports:
+      - "8080:8080"

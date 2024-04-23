@@ -1,0 +1,9 @@
+.github/**
+.gitignore
+.gitlab-ci.yml
+.travis.yml
+docs/**
+git_push.sh
+README.md
+setup.py
+zamzar/__init__.py

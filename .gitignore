@@ -1,0 +1,9 @@
+.DS_Store
+*.egg-info/
+.idea
+.openapi-generator
+dist
+docker-compose.override.yml
+spec.yaml
+**/__pycache__/*
+TODO.md
