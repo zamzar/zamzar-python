@@ -1,0 +1,63 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # we have to use an administrator's personal access token to be able to push to a protected branch
+          # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#push-to-protected-branches
+          token: ${{ secrets.PAT }}
+
+      - id: bumpr-check
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Check for version bump
+        uses: haya14busa/action-bumpr@v1
+        with:
+          dry_run: true
+
+      - if: "!steps.bumpr-check.outputs.skip"
+        name: Bump version
+        run: |
+          VERSION=${{ steps.bumpr-check.outputs.next_version }}
+          VERSION=${VERSION#v} make bump
+
+      - if: "!steps.bumpr-check.outputs.skip"
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Bump version to ${{ steps.bumpr-check.outputs.next_version }}"
+
+      - id: bumpr
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Perform version bump
+        uses: haya14busa/action-bumpr@v1
+
+      - if: "!steps.bumpr.outputs.skip"
+        name: Update tags
+        uses: haya14busa/action-update-semver@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          tag: ${{ steps.bumpr.outputs.next_version }}
+
+      - if: "!steps.bumpr.outputs.skip"
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+        name: Publish to PyPI
+        run: make publish
+
+      - if: "!steps.bumpr.outputs.skip"
+        name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          tag_name: ${{ steps.bumpr.outputs.next_version }}
