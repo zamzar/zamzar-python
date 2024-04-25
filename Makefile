@@ -22,7 +22,7 @@ generate: up
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(CURRENT_VERSION)
 
 test: up
-	@$(EXEC_CMD) pytest
+	@$(EXEC_CMD) pytest -rP
 
 build: generate
 	@$(EXEC_CMD) python -m build
