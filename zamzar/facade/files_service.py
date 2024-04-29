@@ -4,7 +4,6 @@ from pathlib import Path
 from zamzar.api import FilesApi
 from zamzar.facade.file_manager import FileManager
 from zamzar.facade.pagination import Paged
-from zamzar.facade.pagination.paging import Paging
 from zamzar.models import File
 
 
@@ -22,7 +21,7 @@ class FilesService:
     def find(self, file_id) -> FileManager:
         return self.__to_file(self._api.get_file_by_id(file_id=file_id, _request_timeout=self._zamzar.timeout))
 
-    def list(self, anchor=None, limit=None) -> Paged[FileManager, int]:
+    def list(self, anchor=None, limit=None) -> Paged[FileManager]:
         after = anchor.get_after_parameter_value() if anchor else None
         before = anchor.get_before_parameter_value() if anchor else None
         response = self._api.list_files(
@@ -31,11 +30,8 @@ class FilesService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        return Paged(
-            self,
-            [self.__to_file(file) for file in response.data],
-            Paging.from_numeric(response.paging)
-        )
+        files = [self.__to_file(file) for file in response.data]
+        return Paged(self, files, response.paging)
 
     def upload(self, file: Path) -> FileManager:
         file = self._api.upload_file(content=os.fspath(file), _request_timeout=self._zamzar.timeout)
