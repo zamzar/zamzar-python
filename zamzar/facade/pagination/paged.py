@@ -1,18 +1,17 @@
-from typing import TypeVar, Generic, List
+from typing import TypeVar, Generic, List, Union
 
+from zamzar.models import PagingNumeric, PagingString
 from .anchor import after, before
-from .paging import Paging
 
-ID = TypeVar('ID')
 ITEM = TypeVar('ITEM')
 
 
-class Paged(Generic[ITEM, ID]):
+class Paged(Generic[ITEM]):
     def __init__(
             self,
             lister,
             items: List[ITEM],
-            paging: Paging[ID],
+            paging: Union[PagingNumeric, PagingString]
     ):
         self._lister = lister
         self._items = items
