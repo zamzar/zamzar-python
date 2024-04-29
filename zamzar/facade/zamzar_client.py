@@ -3,6 +3,7 @@ from typing import Tuple
 
 from zamzar.api_client import ApiClient
 from zamzar.configuration import Configuration
+from .account_service import AccountService
 from .file_manager import FileManager
 from .files_service import FilesService
 from .job_manager import JobManager
@@ -33,6 +34,7 @@ class ZamzarClient:
         configuration = Configuration(access_token=api_key, host=host)
         self._client = ApiClient(configuration=configuration)
 
+        self.account = AccountService(self, self._client)
         self.files = FilesService(self, self._client)
         self.jobs = JobsService(self, self._client)
         self.welcome = WelcomeService(self, self._client)
