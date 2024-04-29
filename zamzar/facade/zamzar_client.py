@@ -7,6 +7,7 @@ from .account_service import AccountService
 from .file_manager import FileManager
 from .files_service import FilesService
 from .formats_service import FormatsService
+from .imports_service import ImportsService
 from .job_manager import JobManager
 from .jobs_service import JobsService
 from .welcome_service import WelcomeService
@@ -38,6 +39,7 @@ class ZamzarClient:
         self.account = AccountService(self, self._client)
         self.files = FilesService(self, self._client)
         self.formats = FormatsService(self, self._client)
+        self.imports = ImportsService(self, self._client)
         self.jobs = JobsService(self, self._client)
         self.welcome = WelcomeService(self, self._client)
 

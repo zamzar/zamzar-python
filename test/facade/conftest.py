@@ -22,6 +22,18 @@ def zamzar(api_key, test_host) -> ZamzarClient:
 
 
 @pytest.fixture
+def succeeding_import_id() -> int:
+    """The ID of an import that is guaranteed to succeed in the mock server."""
+    return 1
+
+
+@pytest.fixture
+def failing_import_id() -> int:
+    """The ID of an import that is guaranteed to fail in the mock server."""
+    return 2
+
+
+@pytest.fixture
 def succeeding_job_id() -> int:
     """The ID of a job that is guaranteed to succeed in the mock server."""
     return 1
@@ -39,21 +51,39 @@ def file_id() -> int:
     return 1
 
 
+@pytest.fixture
+def mock_server(api_key, test_host):
+    return MockServer(api_key=api_key, api_url=test_host)
+
+
 @pytest.fixture(autouse=True)
-def reset_mock(api_key, test_host):
-    # Make a POST request to "/__admin/scenarios/reset"
-    http = urllib3.PoolManager()
-    headers = {'Authorization': f'Bearer {api_key}'}
-    reset_endpoint = f'{base_url(test_host)}/__admin/scenarios/reset'
-    response = http.request("POST", reset_endpoint, headers=headers)
-    assert response.status == 200, f"Failed to reset mock server: {response.data}"
+def reset_mock(mock_server):
+    mock_server.reset()
 
 
-def base_url(host: str) -> str:
-    """Return the base of a URL, for example http://foo.com:8080/bar?baz becomes http://foo.com:8080"""
-    parsed = urlparse(host)
-    parsed = parsed._replace(fragment="")
-    parsed = parsed._replace(path="")
-    parsed = parsed._replace(params="")
-    parsed = parsed._replace(query="")
-    return parsed.geturl()
+class MockServer:
+    def __init__(self, api_key, api_url):
+        self._api_url = api_url
+        self._base_url = MockServer.__base_url(api_url)
+        self._http = urllib3.PoolManager()
+        self._headers = {'Authorization': f'Bearer {api_key}'}
+
+    def destroy(self, path: str):
+        destroy_endpoint = f'{self._api_url}{path}/destroy'
+        response = self._http.request("POST", destroy_endpoint, headers=self._headers)
+        assert response.status == 200, f"Failed to destroy resource ({path}): {response.data}"
+
+    def reset(self):
+        reset_endpoint = f'{self._base_url}/__admin/scenarios/reset'
+        response = self._http.request("POST", reset_endpoint, headers=self._headers)
+        assert response.status == 200, f"Failed to reset mock server: {response.data}"
+
+    @staticmethod
+    def __base_url(host: str) -> str:
+        """Return the base of a URL, for example http://foo.com:8080/bar?baz becomes http://foo.com:8080"""
+        parsed = urlparse(host)
+        parsed = parsed._replace(fragment="")
+        parsed = parsed._replace(path="")
+        parsed = parsed._replace(params="")
+        parsed = parsed._replace(query="")
+        return parsed.geturl()
