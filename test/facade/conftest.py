@@ -28,6 +28,12 @@ def succeeding_job_id() -> int:
 
 
 @pytest.fixture
+def failing_job_id() -> int:
+    """The ID of a job that is guaranteed to fail in the mock server."""
+    return 3
+
+
+@pytest.fixture
 def file_id() -> int:
     """The ID of a file that is guaranteed to exist in the mock server."""
     return 1
