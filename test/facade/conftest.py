@@ -40,6 +40,12 @@ def succeeding_job_id() -> int:
 
 
 @pytest.fixture
+def succeeding_multi_output_job_id() -> int:
+    """The ID of a job that is guaranteed to succeed in the mock server and have multiple outputs."""
+    return 2
+
+
+@pytest.fixture
 def failing_job_id() -> int:
     """The ID of a job that is guaranteed to fail in the mock server."""
     return 3
