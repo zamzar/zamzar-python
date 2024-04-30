@@ -2,7 +2,7 @@
 
 # flake8: noqa
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 # import apis into sdk package
 from zamzar.api.account_api import AccountApi

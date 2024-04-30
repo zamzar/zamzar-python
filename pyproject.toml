@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zamzar"
-version = "0.0.5"
+version = "0.0.6"
 description = "Zamzar API"
 authors = ["Zamzar <api-sdks@zamzar.com>"]
 license = "MIT"

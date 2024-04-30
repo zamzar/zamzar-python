@@ -12,17 +12,19 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-from typing import Any, Dict, List, Tuple, Union
-from typing import Optional
+import warnings
+from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
+from typing import Any, Dict, List, Optional, Tuple, Union
+from typing_extensions import Annotated
 
 from pydantic import Field, StrictInt, StrictStr
-from pydantic import validate_call, StrictFloat
+from typing import Optional
 from typing_extensions import Annotated
+from zamzar.models.imports import Imports
+from zamzar.models.model_import import ModelImport
 
 from zamzar.api_client import ApiClient, RequestSerialized
 from zamzar.api_response import ApiResponse
-from zamzar.models.imports import Imports
-from zamzar.models.model_import import ModelImport
 from zamzar.rest import RESTResponseType
 
 
@@ -38,22 +40,23 @@ class ImportsApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+
     @validate_call
     def get_import_by_id(
-            self,
-            import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
-            _request_timeout: Union[
-                None,
+        self,
+        import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelImport:
         """Retrieve a specific import
 
@@ -81,7 +84,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._get_import_by_id_serialize(
             import_id=import_id,
@@ -104,22 +107,23 @@ class ImportsApi:
             response_types_map=_response_types_map,
         ).data
 
+
     @validate_call
     def get_import_by_id_with_http_info(
-            self,
-            import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
-            _request_timeout: Union[
-                None,
+        self,
+        import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelImport]:
         """Retrieve a specific import
 
@@ -147,7 +151,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._get_import_by_id_serialize(
             import_id=import_id,
@@ -170,22 +174,23 @@ class ImportsApi:
             response_types_map=_response_types_map,
         )
 
+
     @validate_call
     def get_import_by_id_without_preload_content(
-            self,
-            import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
-            _request_timeout: Union[
-                None,
+        self,
+        import_id: Annotated[StrictInt, Field(description="Numeric id of the import to get")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Retrieve a specific import
 
@@ -213,7 +218,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._get_import_by_id_serialize(
             import_id=import_id,
@@ -232,13 +237,14 @@ class ImportsApi:
         )
         return response_data.response
 
+
     def _get_import_by_id_serialize(
-            self,
-            import_id,
-            _request_auth,
-            _content_type,
-            _headers,
-            _host_index,
+        self,
+        import_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
     ) -> RequestSerialized:
 
         _host = None
@@ -261,12 +267,14 @@ class ImportsApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             [
                 'application/json'
             ]
         )
+
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -288,26 +296,27 @@ class ImportsApi:
             _request_auth=_request_auth
         )
 
+
+
+
     @validate_call
     def list_imports(
-            self,
-            limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
-            after: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
-            before: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
+        after: Annotated[Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
+        before: Annotated[Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Imports:
         """Retrieve a list of all imports
 
@@ -339,7 +348,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._list_imports_serialize(
             limit=limit,
@@ -365,26 +374,25 @@ class ImportsApi:
             response_types_map=_response_types_map,
         ).data
 
+
     @validate_call
     def list_imports_with_http_info(
-            self,
-            limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
-            after: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
-            before: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
+        after: Annotated[Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
+        before: Annotated[Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Imports]:
         """Retrieve a list of all imports
 
@@ -416,7 +424,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._list_imports_serialize(
             limit=limit,
@@ -442,26 +450,25 @@ class ImportsApi:
             response_types_map=_response_types_map,
         )
 
+
     @validate_call
     def list_imports_without_preload_content(
-            self,
-            limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
-            after: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
-            before: Annotated[
-                Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit the number of results (max 50)")] = None,
+        after: Annotated[Optional[StrictInt], Field(description="Retrieve imports after the specified importId")] = None,
+        before: Annotated[Optional[StrictInt], Field(description="Retrieve imports before the specified importId")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Retrieve a list of all imports
 
@@ -493,7 +500,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._list_imports_serialize(
             limit=limit,
@@ -515,15 +522,16 @@ class ImportsApi:
         )
         return response_data.response
 
+
     def _list_imports_serialize(
-            self,
-            limit,
-            after,
-            before,
-            _request_auth,
-            _content_type,
-            _headers,
-            _host_index,
+        self,
+        limit,
+        after,
+        before,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
     ) -> RequestSerialized:
 
         _host = None
@@ -541,17 +549,21 @@ class ImportsApi:
         # process the path parameters
         # process the query parameters
         if limit is not None:
+            
             _query_params.append(('limit', limit))
-
+            
         if after is not None:
+            
             _query_params.append(('after', after))
-
+            
         if before is not None:
+            
             _query_params.append(('before', before))
-
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -559,6 +571,7 @@ class ImportsApi:
                 'application/json'
             ]
         )
+
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -580,24 +593,26 @@ class ImportsApi:
             _request_auth=_request_auth
         )
 
+
+
+
     @validate_call
     def start_import(
-            self,
-            url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
-            filename: Annotated[
-                Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
+        filename: Annotated[Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelImport:
         """Start an Import
 
@@ -627,7 +642,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._start_import_serialize(
             url=url,
@@ -639,7 +654,6 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModelImport",  ## FIXME should be 201 only; fix bug in mock
             '201': "ModelImport",
         }
         response_data = self.api_client.call_api(
@@ -647,30 +661,29 @@ class ImportsApi:
             _request_timeout=_request_timeout
         )
         response_data.read()
-        read = self.api_client.response_deserialize(
+        return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
-        return read
+
 
     @validate_call
     def start_import_with_http_info(
-            self,
-            url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
-            filename: Annotated[
-                Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
+        filename: Annotated[Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelImport]:
         """Start an Import
 
@@ -700,7 +713,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._start_import_serialize(
             url=url,
@@ -724,24 +737,24 @@ class ImportsApi:
             response_types_map=_response_types_map,
         )
 
+
     @validate_call
     def start_import_without_preload_content(
-            self,
-            url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
-            filename: Annotated[
-                Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
-            _request_timeout: Union[
-                None,
+        self,
+        url: Annotated[StrictStr, Field(description="Provide a url in the form HTTP(S), (S)FTP or S3")],
+        filename: Annotated[Optional[StrictStr], Field(description="Override the filename provided in the url")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
                 Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Start an Import
 
@@ -771,7 +784,7 @@ class ImportsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """ # noqa: E501
 
         _param = self._start_import_serialize(
             url=url,
@@ -791,14 +804,15 @@ class ImportsApi:
         )
         return response_data.response
 
+
     def _start_import_serialize(
-            self,
-            url,
-            filename,
-            _request_auth,
-            _content_type,
-            _headers,
-            _host_index,
+        self,
+        url,
+        filename,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
     ) -> RequestSerialized:
 
         _host = None
@@ -822,6 +836,7 @@ class ImportsApi:
         if filename is not None:
             _form_params.append(('filename', filename))
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -863,3 +878,5 @@ class ImportsApi:
             _host=_host,
             _request_auth=_request_auth
         )
+
+
