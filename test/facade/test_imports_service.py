@@ -1,3 +1,7 @@
+import pytest
+
+from test.facade.assertions import assert_non_empty_file
+from zamzar import ApiException
 from zamzar.facade.pagination.anchor import before
 
 
@@ -35,3 +39,18 @@ class TestImportsService:
             assert len(current.get_items()) <= 1
             current = current.previous_page()
         assert number_of_pages >= 2
+
+    def test_start(self, zamzar, tmp_path):
+        """Test that the ImportsService can start an import."""
+        downloaded = tmp_path / "imported-file.txt"
+        _import = zamzar.imports.start("s3://bucket-name/path/to/import").await_completion()
+        _import.get_imported_file().download(downloaded)
+        assert_non_empty_file(downloaded)
+
+    def test_start_for_url_with_unknown_filename_requires_filename_param(self, zamzar):
+        """Test that starting an import with an unknown filename requires a filename param."""
+        with pytest.raises(ApiException):
+            zamzar.imports.start("s3://bucket-name/path/to/unknown")
+
+        # this shouldn't raise an exception
+        zamzar.imports.start("s3://bucket-name/path/to/unknown", "filename.txt")

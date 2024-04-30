@@ -21,8 +21,11 @@ class ImportsService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        imports = [self.__to_import(import_) for import_ in response.data]
+        imports = [self.__to_import(_import) for _import in response.data]
         return Paged(self, imports, response.paging)
+
+    def start(self, url: str, filename: str = None) -> ImportManager:
+        return self.__to_import(self._api.start_import(url, filename, _request_timeout=self._zamzar.timeout))
 
     def __to_import(self, model: ModelImport):
         return ImportManager(self._zamzar, model)
