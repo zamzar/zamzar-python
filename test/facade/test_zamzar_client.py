@@ -1,4 +1,5 @@
 import pytest
+from urllib3 import PoolManager
 
 from zamzar import Environment, ZamzarClient
 from zamzar.exceptions import NotFoundException
@@ -115,3 +116,35 @@ class TestZamzarClient:
         """Test that the ZamzarClient returns a welcome message when directed at the production environment."""
         zamzar = ZamzarClient(api_key=api_key, environment=Environment.SANDBOX)
         assert zamzar.test_connection() is not None, "Should return a welcome message"
+
+    def test_captures_latest_credit_usage(self, zamzar):
+        """Test that the ZamzarClient captures the latest credit usage."""
+        # should be None before any request has been made
+        assert zamzar.last_production_credits_remaining is None
+        assert zamzar.last_sandbox_credits_remaining is None
+
+        # make a request
+        zamzar.pool_manager = HardcodedCreditUsagePoolManager(zamzar.pool_manager, production=42, sandbox=24)
+        zamzar.jobs.list()
+
+        # should capture the latest credit usage
+        assert zamzar.last_production_credits_remaining == 42
+        assert zamzar.last_sandbox_credits_remaining == 24
+
+
+class HardcodedCreditUsagePoolManager(PoolManager):
+    def __init__(self, delegate: PoolManager, production: int, sandbox: int):
+        super().__init__()
+        self.__delegate = delegate
+        self.production = production
+        self.sandbox = sandbox
+
+    def request(self, method, url, *args, **kwargs):
+        response = self.__delegate.request(method, url, *args, **kwargs)
+        response.headers["Zamzar-Credits-Remaining"] = str(self.production)
+        response.headers["Zamzar-Test-Credits-Remaining"] = str(self.sandbox)
+        return response
+
+    def __getattr__(self, name):
+        # Delegate all attribute accesses to the delegate object
+        return getattr(self.__delegate, name)
