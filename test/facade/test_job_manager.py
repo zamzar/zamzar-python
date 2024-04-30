@@ -1,6 +1,6 @@
 import pytest
 
-from test.facade.assertions import assert_empty_file, assert_non_empty_file
+from test.facade.assertions import assert_non_empty_file
 from zamzar import ApiException
 
 
@@ -37,8 +37,6 @@ class TestJobManager:
     def test_store_multi_file_job(self, zamzar, succeeding_multi_output_job_id, tmp_path):
         """Test that a multi-file job can be stored."""
         output = tmp_path / "output"
-        output.touch()
-        assert_empty_file(output)
 
         zamzar.jobs.find(succeeding_multi_output_job_id).await_completion().store(output)
         assert_non_empty_file(output)

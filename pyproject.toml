@@ -34,17 +34,17 @@ extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "zamzar",
-  #"test",  # auto-generated tests
-  "tests", # hand-written tests
+    "examples",
+    "test",
+    "zamzar",
 ]
-# TODO: enable "strict" once all these individual checks are passing
+# Note that the OpenAPI generated code does not pass strict checking, so it is disabled
 # strict = true
 
 # List from: https://mypy.readthedocs.io/en/stable/existing_code.html#introduce-stricter-options
 warn_unused_configs = true
 warn_redundant_casts = true
-warn_unused_ignores = true
+warn_unused_ignores = false   # We can re-enable this when we no longer need the "sed" hack in make generate
 
 ## Getting these passing should be easy
 strict_equality = true
@@ -59,6 +59,7 @@ disallow_subclassing_any = true
 disallow_untyped_decorators = true
 disallow_any_generics = true
 
+# Note that the OpenAPI generated code does not pass the following checks, so they are disabled
 ### These next few are various gradations of forcing use of type annotations
 #disallow_untyped_calls = true
 #disallow_incomplete_defs = true

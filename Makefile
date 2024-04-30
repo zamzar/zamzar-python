@@ -20,8 +20,12 @@ sync:
 generate: up
 	@$(eval CURRENT_VERSION=$(shell $(EXEC_CMD) python setup.py --version))
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(CURRENT_VERSION)
+	# Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
+    # so we add inline comments to ignore these errors
+	@sed -i '' -E 's/(for _item in self\.[^:]+:)/\1  # type: ignore[assignment]/g' zamzar/models/*.py
 
 test: up
+	@$(EXEC_CMD) mypy
 	@$(EXEC_CMD) pytest -rP
 
 build: generate

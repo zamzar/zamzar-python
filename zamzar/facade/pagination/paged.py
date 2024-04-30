@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, List, Union
+from typing import TypeVar, Generic, List, Union, Optional
 
 from zamzar.models import PagingNumeric, PagingString
 from .anchor import after, before
@@ -11,8 +11,11 @@ class Paged(Generic[ITEM]):
             self,
             lister,
             items: List[ITEM],
-            paging: Union[PagingNumeric, PagingString]
+            paging: Union[Optional[PagingNumeric], Optional[PagingString]]
     ):
+        if not paging:
+            raise ValueError("Paging information is required")
+
         self._lister = lister
         self._items = items
         self._paging = paging

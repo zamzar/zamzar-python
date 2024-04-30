@@ -4,6 +4,9 @@
 .travis.yml
 docs/**
 git_push.sh
+pyproject.toml
 README.md
+requirements.txt
 setup.py
+test-requirements.txt
 zamzar/__init__.py

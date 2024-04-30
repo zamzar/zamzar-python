@@ -20,4 +20,4 @@ class FormatsService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        return Paged(self, response.data, response.paging)
+        return Paged(self, (response.data or []), response.paging)

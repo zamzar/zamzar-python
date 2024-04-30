@@ -77,12 +77,12 @@ class MockServer:
     def destroy(self, path: str):
         destroy_endpoint = f'{self._api_url}{path}/destroy'
         response = self._http.request("POST", destroy_endpoint, headers=self._headers)
-        assert response.status == 200, f"Failed to destroy resource ({path}): {response.data}"
+        assert response.status == 200, f"Failed to destroy resource ({path})"
 
     def reset(self):
         reset_endpoint = f'{self._base_url}/__admin/scenarios/reset'
         response = self._http.request("POST", reset_endpoint, headers=self._headers)
-        assert response.status == 200, f"Failed to reset mock server: {response.data}"
+        assert response.status == 200, f"Failed to reset mock server"
 
     @staticmethod
     def __base_url(host: str) -> str:
