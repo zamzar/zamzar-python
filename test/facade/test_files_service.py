@@ -69,8 +69,8 @@ class TestFilesService:
     def test_download(self, zamzar, file_id, tmp_path):
         """Test that the FilesService can download a file."""
         target = tmp_path / "target"
-        downloaded = zamzar.files.download(file_id, target)
-        assert_non_empty_file(downloaded)
+        zamzar.files.download(file_id, target)
+        assert_non_empty_file(target)
 
     def test_download_to_directory(self, zamzar, file_id, tmp_path):
         """Test that the FilesService can download a file to a directory."""
