@@ -8,5 +8,10 @@ class FileManager:
         self.model = model
         self.id = model.id
 
-    def download(self, target):
-        return self._zamzar.files._download_model(self.model, target)
+    def delete(self) -> id:
+        self._zamzar.files.delete(self.id)
+        return self
+
+    def download(self, target) -> id:
+        self._zamzar.files._download_model(self.model, target)
+        return self

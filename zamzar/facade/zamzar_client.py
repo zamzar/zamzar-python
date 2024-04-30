@@ -62,6 +62,9 @@ class ZamzarClient:
             ).await_completion()
         )
 
+    def download(self, file_id, target) -> FileManager:
+        return self.files.download(file_id, target)
+
     def test_connection(self) -> str:
         return self.welcome.get()
 

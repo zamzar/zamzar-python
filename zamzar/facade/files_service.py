@@ -15,7 +15,7 @@ class FilesService:
     def delete(self, file_id) -> FileManager:
         return self.__to_file(self._api.delete_file_by_id(file_id=file_id, _request_timeout=self._zamzar.timeout))
 
-    def download(self, file_id, target: Path) -> Path:
+    def download(self, file_id, target: Path) -> FileManager:
         return self.find(file_id).download(target)
 
     def find(self, file_id) -> FileManager:
