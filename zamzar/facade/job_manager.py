@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import zipfile
 from pathlib import Path
 from typing import Optional
@@ -26,20 +28,20 @@ class JobManager(Awaitable):
         self._zamzar = zamzar
         self.model = model
         self.id = model.id
-        self.source_file_id = model.source_file.id
+        self.source_file_id = model.source_file.id if model.source_file else None
         self.target_files = model.target_files
         self.target_file_ids = [target_file.id for target_file in model.target_files] if model.target_files else []
 
-    def delete_all_files(self) -> id:
+    def delete_all_files(self) -> JobManager:
         self.delete_source_file()
         self.delete_target_files()
         return self
 
-    def delete_source_file(self) -> id:
+    def delete_source_file(self) -> JobManager:
         self._zamzar.files.delete(self.source_file_id)
         return self
 
-    def delete_target_files(self) -> id:
+    def delete_target_files(self) -> JobManager:
         for target_file_id in self.target_file_ids:
             self._zamzar.files.delete(target_file_id)
         return self
@@ -53,13 +55,10 @@ class JobManager(Awaitable):
     def get_failure(self) -> Optional[Failure]:
         return self.model.failure
 
-    def refresh(self) -> id:
+    def refresh(self) -> JobManager:
         return self._zamzar.jobs.find(self.id)
 
-    def store(self, target) -> id:
-        if not self.target_files:
-            raise ApiException("No target files to download")
-
+    def store(self, target) -> JobManager:
         source = self.__primary_target_file()
         destination = self._zamzar.files._download_model(source, target)
         if len(self.target_file_ids) > 1:
@@ -67,9 +66,15 @@ class JobManager(Awaitable):
         return self
 
     def __primary_target_file(self) -> File:
+        if not self.target_files:
+            raise ApiException("No target files to download")
+
         return self.target_files[0] if len(self.target_files) == 1 else self.__target_file_zip()
 
     def __target_file_zip(self) -> File:
+        if not self.target_files:
+            raise ApiException("No target files to download")
+        
         try:
             return next(filter(lambda f: f.name.endswith(".zip"), self.target_files))
         except StopIteration:
@@ -89,3 +94,6 @@ class JobManager(Awaitable):
 
         # Return true if and only if all exports have completed
         return all(export.status in self.__TERMINAL_EXPORT_STATUSES for export in self.model.exports)
+
+    def to_str(self) -> str:
+        return f"JobManager(id={self.id})"

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from zamzar.api import ImportsApi
 from zamzar.facade.pagination import Paged
 from zamzar.models.model_import import ModelImport
@@ -21,10 +23,10 @@ class ImportsService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        imports = [self.__to_import(_import) for _import in response.data]
+        imports = [self.__to_import(_import) for _import in (response.data or [])]
         return Paged(self, imports, response.paging)
 
-    def start(self, url: str, filename: str = None) -> ImportManager:
+    def start(self, url: str, filename: Optional[str] = None) -> ImportManager:
         return self.__to_import(self._api.start_import(url, filename, _request_timeout=self._zamzar.timeout))
 
     def __to_import(self, model: ModelImport):

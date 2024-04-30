@@ -30,16 +30,16 @@ class FilesService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        files = [self.__to_file(file) for file in response.data]
+        files = [self.__to_file(file) for file in (response.data or [])]
         return Paged(self, files, response.paging)
 
-    def upload(self, file: Path) -> FileManager:
-        file = self._api.upload_file(content=os.fspath(file), _request_timeout=self._zamzar.timeout)
+    def upload(self, source: Path) -> FileManager:
+        file = self._api.upload_file(content=os.fspath(source), _request_timeout=self._zamzar.timeout)
         return FileManager(self._zamzar, file)
 
     def _download_model(self, model: File, target: Path) -> Path:
         if target.is_dir():
-            name = model.name if model.name else model.id
+            name = model.name if model.name else f"{model.id}"
             target = target / name
 
         with open(target, "wb") as file:

@@ -1,6 +1,7 @@
 import time
 from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
+from typing import Optional
 
 from zamzar import ApiException
 from zamzar.models import Failure
@@ -23,7 +24,7 @@ class Awaitable(ABC):
     ]
 
     @abstractmethod
-    def get_failure(self) -> Failure:
+    def get_failure(self) -> Optional[Failure]:
         pass
 
     @abstractmethod

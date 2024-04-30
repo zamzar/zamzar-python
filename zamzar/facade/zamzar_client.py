@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Tuple
+from typing import Optional, Tuple
 
 from zamzar.api_client import ApiClient
 from zamzar.configuration import Configuration
@@ -27,7 +27,7 @@ class ZamzarClient:
             self,
             api_key: str,
             environment: Environment = Environment.PRODUCTION,
-            host: str = None,
+            host: Optional[str] = None,
             timeout: Tuple[float, float] = (HTTP_CONNECTION_TIMEOUT, HTTP_READ_TIMEOUT),
     ):
         self.timeout = timeout
@@ -51,16 +51,9 @@ class ZamzarClient:
             export_url=None,
             options=None
     ) -> JobManager:
-        return (
-            self.jobs
-            .create(
-                source=source,
-                target_format=target_format,
-                source_format=source_format,
-                export_url=export_url,
-                options=options
-            ).await_completion()
-        )
+        return self.jobs \
+            .create(source, target_format, source_format, export_url, options) \
+            .await_completion()
 
     def download(self, file_id, target) -> FileManager:
         return self.files.download(file_id, target)

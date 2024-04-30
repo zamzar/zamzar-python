@@ -2,7 +2,7 @@ import pytest
 
 from zamzar import Environment, ZamzarClient
 from zamzar.exceptions import NotFoundException
-from .assertions import assert_empty_file, assert_non_empty_file
+from .assertions import assert_non_empty_file
 
 
 class TestZamzarClient:
@@ -12,10 +12,8 @@ class TestZamzarClient:
         """Test that the ZamzarClient can convert, store, and delete files."""
         source = tmp_path / "source"
         source.touch()
-        target = tmp_path / "target"
-        target.touch()
 
-        assert_empty_file(target)
+        target = tmp_path / "target"
 
         job = zamzar.convert(
             source=source,
@@ -45,10 +43,8 @@ class TestZamzarClient:
         """Test that the ZamzarClient can upload, convert, download, and delete files."""
         source = tmp_path / "source"
         source.touch()
-        target = tmp_path / "target"
-        target.touch()
 
-        assert_empty_file(target)
+        target = tmp_path / "target"
 
         uploaded = zamzar.upload(source)
         job = zamzar.convert(uploaded.id, "txt").await_completion()
@@ -68,9 +64,6 @@ class TestZamzarClient:
     def test_download_and_delete_when_multiple_target_files(self, zamzar, succeeding_multi_output_job_id, tmp_path):
         """Test that the ZamzarClient can download and delete multiple target files."""
         output = tmp_path / "output"
-        output.touch()
-
-        assert_empty_file(output)
 
         job = (
             zamzar
@@ -101,9 +94,6 @@ class TestZamzarClient:
     def test_convert_url_with_source_format(self, zamzar, tmp_path):
         """Test that the ZamzarClient can convert a URL with a source format."""
         output = tmp_path / "output"
-        output.touch()
-
-        assert_empty_file(output)
 
         job = zamzar.convert(
             # URLs containing "unknown" cause a 422 from the mock if filename (i.e., source format) is not supplied

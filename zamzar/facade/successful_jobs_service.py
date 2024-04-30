@@ -18,7 +18,7 @@ class SuccessfulJobsService:
             limit=limit,
             _request_timeout=self._zamzar.timeout
         )
-        jobs = [self.__to_job(job) for job in response.data]
+        jobs = [self.__to_job(job) for job in (response.data or [])]
         return Paged(self, jobs, response.paging)
 
     def __to_job(self, model: Job):
