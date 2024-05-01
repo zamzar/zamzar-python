@@ -9,15 +9,17 @@ from urllib3 import BaseHTTPResponse, PoolManager, Timeout, Retry
 class ZamzarPoolManager(PoolManager):
     def __init__(self, delegate: PoolManager, timeout: Timeout, retries: Retry):
         super().__init__()
-        self.__delegate = delegate
+        self.delegate = delegate
         self.timeout = timeout
         self.retries = retries
         self.latest_response: Optional[BaseHTTPResponse] = None
 
     def request(self, method, url, *args, **kwargs):
-        kwargs.setdefault("timeout", self.timeout)
-        kwargs.setdefault("retries", self.retries)
-        self.latest_response = self.__delegate.request(method, url, *args, **kwargs)
+        if kwargs.get("timeout") is None:
+            kwargs["timeout"] = self.timeout
+        if kwargs.get("retries") is None:
+            kwargs["retries"] = self.retries
+        self.latest_response = self.delegate.request(method, url, *args, **kwargs)
         return self.latest_response
 
     def get_header_from_latest_response(self, name, default=None):
@@ -27,4 +29,4 @@ class ZamzarPoolManager(PoolManager):
 
     def __getattr__(self, name):
         # Delegate all attribute accesses to the delegate object
-        return getattr(self.__delegate, name)
+        return getattr(self.delegate, name)
