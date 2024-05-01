@@ -25,7 +25,7 @@ with open(
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 NAME = "zamzar"
-VERSION = "0.0.8"
+VERSION = "0.0.9"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
     "urllib3 >= 1.25.3, < 2.1.0",
