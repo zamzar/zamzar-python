@@ -3,8 +3,8 @@ from pathlib import Path
 
 from zamzar.api import FilesApi
 from zamzar.facade.file_manager import FileManager
-from zamzar.facade.pagination import Paged
 from zamzar.models import File
+from zamzar.pagination import Paged
 
 
 class FilesService:

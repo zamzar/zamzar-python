@@ -2,7 +2,7 @@ import pytest
 
 from test.facade.assertions import assert_non_empty_file
 from zamzar import ApiException
-from zamzar.facade.pagination.anchor import before
+from zamzar.pagination import before
 
 
 class TestImportsService:
@@ -16,17 +16,17 @@ class TestImportsService:
     def test_list(self, zamzar):
         """Test that the ImportsService can list."""
         imports = zamzar.imports.list()
-        assert 0 < len(imports.get_items()), "Should list imports"
-        for i in imports.get_items():
+        assert 0 < len(imports.items), "Should list imports"
+        for i in imports.items:
             assert i.id > 0, "Should have an id"
 
     def test_list_and_page_forwards(self, zamzar):
         """Test that the ImportsService can list and page forwards."""
         number_of_pages = 0
         current = zamzar.imports.list(limit=2)
-        while len(current.get_items()) > 0:
+        while len(current.items) > 0:
             number_of_pages += 1
-            assert len(current.get_items()) <= 2
+            assert len(current.items) <= 2
             current = current.next_page()
         assert number_of_pages >= 2
 
@@ -34,9 +34,9 @@ class TestImportsService:
         """Test that the ImportsService can list and page backwards."""
         number_of_pages = 0
         current = zamzar.imports.list(anchor=before(1), limit=1)
-        while len(current.get_items()) > 0:
+        while len(current.items) > 0:
             number_of_pages += 1
-            assert len(current.get_items()) <= 1
+            assert len(current.items) <= 1
             current = current.previous_page()
         assert number_of_pages >= 2
 

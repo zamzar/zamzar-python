@@ -1,8 +1,8 @@
 from typing import Optional
 
 from zamzar.api import ImportsApi
-from zamzar.facade.pagination import Paged
 from zamzar.models.model_import import ModelImport
+from zamzar.pagination import Paged
 from .import_manager import ImportManager
 
 

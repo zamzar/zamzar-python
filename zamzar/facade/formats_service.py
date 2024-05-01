@@ -1,6 +1,6 @@
 from zamzar.api import FormatsApi
-from zamzar.facade.pagination import Paged
 from zamzar.models.format import Format
+from zamzar.pagination import Paged
 
 
 class FormatsService:
