@@ -28,7 +28,7 @@ test: up
 	@$(EXEC_CMD) mypy
 	@$(EXEC_CMD) pytest -rP
 
-build: generate
+build: up
 	@$(EXEC_CMD) python -m build
 
 bump: up sync
