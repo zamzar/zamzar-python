@@ -9,15 +9,10 @@ class FormatsService:
         self._api = FormatsApi(client)
 
     def find(self, name) -> Format:
-        return self._api.get_format_by_id(format=name, _request_timeout=self._zamzar.timeout)
+        return self._api.get_format_by_id(format=name)
 
     def list(self, anchor=None, limit=None) -> Paged[Format]:
         after = anchor.get_after_parameter_value() if anchor else None
         before = anchor.get_before_parameter_value() if anchor else None
-        response = self._api.list_formats(
-            after=after,
-            before=before,
-            limit=limit,
-            _request_timeout=self._zamzar.timeout
-        )
+        response = self._api.list_formats(after=after, before=before, limit=limit)
         return Paged(self, (response.data or []), response.paging)

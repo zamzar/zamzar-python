@@ -8,7 +8,7 @@ class WelcomeService:
         self._api = WelcomeApi(client)
 
     def get(self) -> str:
-        message = self._api.welcome(_request_timeout=self._zamzar.timeout).message
+        message = self._api.welcome().message
 
         if message is None:
             raise ApiException("No welcome message was received.")

@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 import pytest
 import urllib3
 
+from test.facade.tracking_pool_manager import TrackingPoolManager
 from zamzar import ZamzarClient
 
 
@@ -19,6 +20,12 @@ def api_key() -> str:
 @pytest.fixture
 def zamzar(api_key, test_host) -> ZamzarClient:
     return ZamzarClient(api_key=api_key, host=test_host)
+
+
+@pytest.fixture
+def zamzar_tracked(zamzar) -> ZamzarClient:
+    zamzar.pool_manager = TrackingPoolManager(zamzar.pool_manager)
+    return zamzar
 
 
 @pytest.fixture

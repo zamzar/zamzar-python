@@ -117,6 +117,15 @@ class TestZamzarClient:
         zamzar = ZamzarClient(api_key=api_key, environment=Environment.SANDBOX)
         assert zamzar.test_connection() is not None, "Should return a welcome message"
 
+    def test_has_user_agent(self, zamzar_tracked):
+        """Test that the ZamzarClient sends HTTP requests with a user agent."""
+        zamzar_tracked.account.get()
+        assert "zamzar-python-v1" == zamzar_tracked.pool_manager.history[0].request.headers["User-Agent"]
+
+    def test_has_timeouts(self, zamzar):
+        assert zamzar.timeout.connect_timeout == 15.0
+        assert zamzar.timeout.read_timeout == 30.0
+
     def test_captures_latest_credit_usage(self, zamzar):
         """Test that the ZamzarClient captures the latest credit usage."""
         # should be None before any request has been made
@@ -131,6 +140,12 @@ class TestZamzarClient:
         assert zamzar.last_production_credits_remaining == 42
         assert zamzar.last_sandbox_credits_remaining == 24
 
+    # def test_retries_on_server_error(self, zamzar):
+    #     """Test that the ZamzarClient retries on server error."""
+    #     zamzar.pool_manager = HardcodedResponsePoolManager(zamzar.pool_manager, status=503, pass_through_after=2)
+    #     account = zamzar.account.get()
+    #     assert account.credits_remaining is not None
+
 
 class HardcodedCreditUsagePoolManager(PoolManager):
     def __init__(self, delegate: PoolManager, production: int, sandbox: int):
@@ -143,6 +158,27 @@ class HardcodedCreditUsagePoolManager(PoolManager):
         response = self.__delegate.request(method, url, *args, **kwargs)
         response.headers["Zamzar-Credits-Remaining"] = str(self.production)
         response.headers["Zamzar-Test-Credits-Remaining"] = str(self.sandbox)
+        return response
+
+    def __getattr__(self, name):
+        # Delegate all attribute accesses to the delegate object
+        return getattr(self.__delegate, name)
+
+
+class HardcodedResponsePoolManager(PoolManager):
+    def __init__(self, delegate: PoolManager, status: int, pass_through_after: int):
+        super().__init__()
+        self.__delegate = delegate
+        self.status = status
+        self.pass_through_after = pass_through_after
+        self.counter = 0
+
+    def request(self, method, url, *args, **kwargs):
+        self.counter += 1
+        if self.counter > self.pass_through_after:
+            return self.__delegate.request(method, url, *args, **kwargs)
+        response = self.__delegate.request(method, url, *args, **kwargs)
+        response.status = self.status
         return response
 
     def __getattr__(self, name):
