@@ -78,7 +78,7 @@ class Files(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in data (list)
         _items = []
         if self.data:
-            for _item in self.data:  # type: ignore[assignment]
+            for _item in self.data:
                 if _item:
                     _items.append(_item.to_dict())
             _dict['data'] = _items
