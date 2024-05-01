@@ -4,8 +4,8 @@ from urllib.parse import urlparse
 
 from zamzar.api import JobsApi
 from zamzar.facade.job_manager import JobManager
-from zamzar.facade.pagination import Paged
 from zamzar.models import Job
+from zamzar.pagination import Paged
 from .successful_jobs_service import SuccessfulJobsService
 from .. import ApiException
 

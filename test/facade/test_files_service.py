@@ -1,7 +1,7 @@
 import pytest
 
 from zamzar.exceptions import NotFoundException
-from zamzar.facade.pagination.anchor import after, before
+from zamzar.pagination import after, before
 from .assertions import assert_non_empty_file
 
 
@@ -16,8 +16,8 @@ class TestFilesService:
     def test_list(self, zamzar):
         """Test that the FilesService can list files."""
         files = zamzar.files.list()
-        assert 0 < len(files.get_items()), "Should list files"
-        for file in files.get_items():
+        assert 0 < len(files.items), "Should list files"
+        for file in files.items:
             assert file.id is not None, "Should have an ID"
 
     def test_list_and_page_forwards(self, zamzar):
@@ -26,16 +26,16 @@ class TestFilesService:
         # See: https://github.com/zamzar/zamzar-mock/blob/main/README.md
 
         first_page = zamzar.files.list(anchor=after(6), limit=2)
-        assert [5, 4] == [file.id for file in first_page.get_items()]
+        assert [5, 4] == [file.id for file in first_page.items]
 
         second_page = first_page.next_page()
-        assert [3, 2] == [file.id for file in second_page.get_items()]
+        assert [3, 2] == [file.id for file in second_page.items]
 
         third_page = second_page.next_page()
-        assert [1] == [file.id for file in third_page.get_items()]
+        assert [1] == [file.id for file in third_page.items]
 
         past_end = third_page.next_page()
-        assert 0 == len(past_end.get_items())
+        assert 0 == len(past_end.items)
 
     def test_list_and_page_backwards(self, zamzar):
         """Test that the FilesService can list and page backwards."""
@@ -43,16 +43,16 @@ class TestFilesService:
         # See: https://github.com/zamzar/zamzar-mock/blob/main/README.md
 
         first_page = zamzar.files.list(anchor=before(1), limit=2)
-        assert [3, 2] == [file.id for file in first_page.get_items()]
+        assert [3, 2] == [file.id for file in first_page.items]
 
         second_page = first_page.previous_page()
-        assert [5, 4] == [file.id for file in second_page.get_items()]
+        assert [5, 4] == [file.id for file in second_page.items]
 
         third_page = second_page.previous_page()
-        assert [7, 6] == [file.id for file in third_page.get_items()]
+        assert [7, 6] == [file.id for file in third_page.items]
 
         past_end = third_page.previous_page()
-        assert 0 == len(past_end.get_items())
+        assert 0 == len(past_end.items)
 
     def test_delete(self, zamzar, file_id):
         """Test that the FilesService can delete a file."""

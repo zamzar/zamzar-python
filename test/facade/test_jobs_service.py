@@ -3,7 +3,7 @@ import pytest
 from zamzar import ApiException
 from zamzar.facade.job_status import JobStatus
 from zamzar.facade.jobs_service import JobsService
-from zamzar.facade.pagination.anchor import before
+from zamzar.pagination import before
 
 
 class TestJobsService:
@@ -46,14 +46,14 @@ class TestJobsService:
     def test_list(self, zamzar):
         """Test that the JobsService can list."""
         jobs = zamzar.jobs.list()
-        assert 0 < len(jobs.get_items()), "Should list jobs"
-        for i in jobs.get_items():
+        assert 0 < len(jobs.items), "Should list jobs"
+        for i in jobs.items:
             assert i.id > 0, "Should have an id"
 
     def test_list_successful(self, zamzar):
         """Test that the JobsService can list successful jobs."""
         jobs = zamzar.jobs.successful.list()
-        for job in jobs.get_items():
+        for job in jobs.items:
             assert job.id > 0
             assert job.has_succeeded()
 
@@ -61,9 +61,9 @@ class TestJobsService:
         """Test that the JobsService can list and page forwards."""
         number_of_pages = 0
         current = zamzar.jobs.list(limit=2)
-        while len(current.get_items()) > 0:
+        while len(current.items) > 0:
             number_of_pages += 1
-            assert len(current.get_items()) <= 2
+            assert len(current.items) <= 2
             current = current.next_page()
         assert number_of_pages >= 2
 
@@ -71,9 +71,9 @@ class TestJobsService:
         """Test that the JobsService can list and page backwards."""
         number_of_pages = 0
         current = zamzar.jobs.list(anchor=before(1), limit=1)
-        while len(current.get_items()) > 0:
+        while len(current.items) > 0:
             number_of_pages += 1
-            assert len(current.get_items()) <= 1
+            assert len(current.items) <= 1
             current = current.previous_page()
         assert number_of_pages >= 2
 
