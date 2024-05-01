@@ -88,23 +88,23 @@ class TestJobsService:
         )
         assert job.id > 0, "Should have created a job"
 
-    def test_create_with_source_format_and_options_and_export(self, zamzar, tmp_path):
+    def test_create_with_source_format_and_options_and_export(self, zamzar_tracked, tmp_path):
         """Test that the JobsService can create a job with a source format, options, and export."""
         source = tmp_path / "source"
         source.touch()
         source.write_text("Hello, world!")
-        job = zamzar.jobs.create(
+        job = zamzar_tracked.jobs.create(
             source=source,
             target_format="txt",
             source_format="pdf",
             options={
-                "quality": "50",
-                "ocr": "true"
+                "quality": 50,
+                "ocr": True
             },
             export_url="s3://bucket-name/path/to/export"
         )
         assert job.id > 0, "Should have created a job"
-        # FIXME how hard would it be to update the mock to mirror the submitted JSON? Would avoid need for spies here and in Java
+        assert zamzar_tracked.pool_manager.history[-1].request.body_contains('{"quality": 50, "ocr": true}')
 
     def test_create_from_url(self, zamzar):
         """Test that the JobsService can create a job from a URL."""
