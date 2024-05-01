@@ -40,6 +40,9 @@ endif
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" setup.py
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" zamzar/__init__.py
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(VERSION)
+	# Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
+    # so we add inline comments to ignore these errors
+	@sed -i '' -E 's/(for _item in self\.[^:]+:)/\1  # type: ignore[assignment]/g' zamzar/models/*.py
 
 publish: build
 ifndef TWINE_USERNAME
