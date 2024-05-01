@@ -1,5 +1,6 @@
 import json
 from http.client import HTTPMessage
+from typing import Optional, Dict, Any
 from urllib.parse import urlparse
 
 import pytest
@@ -77,7 +78,11 @@ def set_fake_responses(mocker):
 
 @pytest.fixture
 def create_mock_response(mocker):
-    def _create_mock_response(status: int, headers: dict = None, json_body: dict = None):
+    def _create_mock_response(
+            status: int,
+            headers: Optional[Dict[str, str]] = None,
+            json_body: Optional[Dict[str, Any]] = None
+    ):
         if headers is None:
             headers = {}
         if json_body is None:
