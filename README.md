@@ -100,14 +100,29 @@ The Zamzar Python library will automatically:
 * time out long-running requests
 * retry requests that fail or time out
 
-The default settings are defined in TODO.
+The default settings are defined
+in [ZamzarClient](https://github.com/zamzar/zamzar-python/blob/main/zamzar/facade/zamzar_client.py).
 
 To override these defaults, configure your
-own [okhttp3.OkHttpClient](https://square.github.io/okhttp/5.x/okhttp/okhttp3/-ok-http-client/index.html) and pass it to
-the `ZamzarClient` constructor:
+own [urllib3.Retry](https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry) and pass it
+to the `ZamzarClient` constructor:
 
 ```python
-# TODO
+import urllib3
+
+from zamzar import ZamzarClient
+
+# Configure a custom retry policy
+custom_policy = urllib3.Retry(
+    total=5,  # Maximum number of retries
+    backoff_factor=1,  # Exponential backoff factor
+    backoff_max=60,  # Maximum backoff time
+    status_forcelist=[429, 502, 503, 504],  # HTTP status codes to retry
+    allowed_methods=None  # retry all request methods
+)
+
+# Make a request to the Zamzar API
+zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", retries=custom_policy)
 ```
 
 ## Resources
