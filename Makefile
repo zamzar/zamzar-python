@@ -7,6 +7,20 @@ GENERATOR_CMD = docker compose exec codegen \
 GENERATE_ARGS = generate -i $(SPEC) -g python -c openapi-generator-config.yaml
 EXEC_CMD = docker compose exec python
 
+# Set sed -i command based on the detected OS
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+  	# for macOS
+    SED_INPLACE := sed -i ''
+else
+	# for Linux
+    SED_INPLACE := sed -i
+endif
+
+# Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
+# so we add inline comments to ignore these errors
+SUPPRESS_MYPY_CMD = $(SED_INPLACE) -E 's/(for _item in self\.[^:]+:)/\1  \# type: ignore[assignment]/g' zamzar/models/*.py
+
 up:
 	@docker compose up -d
 
@@ -20,18 +34,16 @@ sync:
 generate: up
 	@$(eval CURRENT_VERSION=$(shell $(EXEC_CMD) python setup.py --version))
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(CURRENT_VERSION)
-	# Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
-    # so we add inline comments to ignore these errors
-	@sed -i '' -E 's/(for _item in self\.[^:]+:)/\1  # type: ignore[assignment]/g' zamzar/models/*.py
+	@$(SUPPRESS_MYPY_CMD)
 
-test: up
+test: sync generate
 	@$(EXEC_CMD) mypy
 	@$(EXEC_CMD) pytest -rP
 
 build: up
 	@$(EXEC_CMD) python -m build
 
-bump: up sync
+bump: sync up
 ifndef VERSION
 	$(error VERSION is not set)
 endif
@@ -40,9 +52,7 @@ endif
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" setup.py
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" zamzar/__init__.py
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(VERSION)
-	# Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
-    # so we add inline comments to ignore these errors
-	@sed -i '' -E 's/(for _item in self\.[^:]+:)/\1  # type: ignore[assignment]/g' zamzar/models/*.py
+	@$(SUPPRESS_MYPY_CMD)
 
 publish: build
 ifndef TWINE_USERNAME
