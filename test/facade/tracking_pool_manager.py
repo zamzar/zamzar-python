@@ -12,9 +12,11 @@ class TrackingPoolManager(PoolManager):
         self.history: List[RequestResponse] = []
 
     def request(self, method, url, *args, **kwargs):
+        headers = kwargs.get("headers", {})
+        body = kwargs.get("body", None) or kwargs.get("fields", None)
+        request = HTTPRequest(method, url, headers, body)
         response = self.__delegate.request(method, url, *args, **kwargs)
-        entry = RequestResponse(HTTPRequest(method, url, kwargs.get("headers", {})), response)
-        self.history.append(entry)
+        self.history.append(RequestResponse(request, response))
         return response
 
     @property
@@ -35,7 +37,21 @@ class RequestResponse:
 
 
 class HTTPRequest:
-    def __init__(self, method, url, headers):
+    def __init__(self, method, url, headers, body):
         self.method = method
         self.url = url
         self.headers = headers
+        self.body = body
+
+    def body_contains(self, needle: str) -> bool:
+        # if the body is a string, check if the needle is in the body
+        if needle in self.body:
+            return True
+
+        # if the body is a list of tuples, check each tuple
+        if isinstance(self.body, list):
+            for item in self.body:
+                if needle in item:
+                    return True
+
+        return False
