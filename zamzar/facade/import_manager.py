@@ -4,8 +4,8 @@ from typing import Optional
 
 from zamzar.models import Failure
 from zamzar.models import ModelImport
+from ._internal import Awaitable
 from .file_manager import FileManager
-from .internal import Awaitable
 from .job_status import JobStatus
 
 

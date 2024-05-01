@@ -3,12 +3,12 @@ from typing import Optional, Tuple
 
 from zamzar.api_client import ApiClient
 from zamzar.configuration import Configuration
+from ._internal import LatestResponsePoolManager
 from .account_service import AccountService
 from .file_manager import FileManager
 from .files_service import FilesService
 from .formats_service import FormatsService
 from .imports_service import ImportsService
-from .internal import LatestResponsePoolManager
 from .job_manager import JobManager
 from .jobs_service import JobsService
 from .welcome_service import WelcomeService

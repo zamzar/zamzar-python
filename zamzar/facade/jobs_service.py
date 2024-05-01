@@ -54,7 +54,7 @@ class JobsService:
             target_format=target_format,
             source_format=source_format,
             export_url=export_url,
-            options=None,  # FIXME pass through
+            options=options,  # FIXME pass through
             _request_timeout=self._zamzar.timeout,
         )
         return JobManager(self._zamzar, job)

@@ -4,7 +4,7 @@ from datetime import timedelta
 import pytest
 
 from zamzar import ApiException
-from zamzar.facade.internal import Awaitable
+from zamzar.facade._internal import Awaitable
 from zamzar.models import Failure
 
 

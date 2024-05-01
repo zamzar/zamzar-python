@@ -7,7 +7,7 @@ from typing import Optional
 from zamzar.models import Failure
 from zamzar.models import File
 from zamzar.models import Job
-from .internal import Awaitable
+from ._internal import Awaitable
 from .job_status import JobStatus
 from .. import ApiException
 
