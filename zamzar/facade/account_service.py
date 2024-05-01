@@ -8,4 +8,4 @@ class AccountService:
         self._api = AccountApi(client)
 
     def get(self) -> Account:
-        return self._api.get_account(_request_timeout=self._zamzar.timeout)
+        return self._api.get_account()

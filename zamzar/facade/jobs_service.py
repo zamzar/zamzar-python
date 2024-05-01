@@ -39,7 +39,7 @@ class JobsService:
         self.successful = SuccessfulJobsService(self._zamzar, client)
 
     def cancel(self, job_id) -> JobManager:
-        return self.__to_job(self._api.cancel_job_by_id(job_id, _request_timeout=self._zamzar.timeout))
+        return self.__to_job(self._api.cancel_job_by_id(job_id))
 
     def create(
             self,
@@ -54,23 +54,17 @@ class JobsService:
             target_format=target_format,
             source_format=source_format,
             export_url=export_url,
-            options=options,  # FIXME pass through
-            _request_timeout=self._zamzar.timeout,
+            options=options,
         )
         return JobManager(self._zamzar, job)
 
     def find(self, job_id) -> JobManager:
-        return self.__to_job(self._api.get_job_by_id(job_id, _request_timeout=self._zamzar.timeout))
+        return self.__to_job(self._api.get_job_by_id(job_id))
 
     def list(self, anchor=None, limit=None) -> Paged[JobManager]:
         after = anchor.get_after_parameter_value() if anchor else None
         before = anchor.get_before_parameter_value() if anchor else None
-        response = self._api.list_jobs(
-            after=after,
-            before=before,
-            limit=limit,
-            _request_timeout=self._zamzar.timeout
-        )
+        response = self._api.list_jobs(after=after, before=before, limit=limit)
         jobs = [self.__to_job(job) for job in (response.data or [])]
         return Paged(self, jobs, response.paging)
 

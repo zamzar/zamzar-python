@@ -12,12 +12,7 @@ class SuccessfulJobsService:
     def list(self, anchor=None, limit=None) -> Paged[JobManager]:
         after = anchor.get_after_parameter_value() if anchor else None
         before = anchor.get_before_parameter_value() if anchor else None
-        response = self._api.list_successful_jobs(
-            after=after,
-            before=before,
-            limit=limit,
-            _request_timeout=self._zamzar.timeout
-        )
+        response = self._api.list_successful_jobs(after=after, before=before, limit=limit)
         jobs = [self.__to_job(job) for job in (response.data or [])]
         return Paged(self, jobs, response.paging)
 
