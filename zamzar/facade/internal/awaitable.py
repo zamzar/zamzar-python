@@ -23,8 +23,9 @@ class Awaitable(ABC):
         timedelta(seconds=60)
     ]
 
+    @property
     @abstractmethod
-    def get_failure(self) -> Optional[Failure]:
+    def failure(self) -> Optional[Failure]:
         pass
 
     @abstractmethod

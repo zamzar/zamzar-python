@@ -23,7 +23,8 @@ class ImportManager(Awaitable):
     def has_succeeded(self) -> bool:
         return self.model.status == JobStatus.SUCCESSFUL.value
 
-    def get_failure(self) -> Optional[Failure]:
+    @property
+    def failure(self) -> Optional[Failure]:
         return self.model.failure
 
     def refresh(self) -> ImportManager:

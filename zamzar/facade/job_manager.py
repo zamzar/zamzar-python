@@ -52,7 +52,8 @@ class JobManager(Awaitable):
     def has_succeeded(self) -> bool:
         return self.model.status == JobStatus.SUCCESSFUL.value
 
-    def get_failure(self) -> Optional[Failure]:
+    @property
+    def failure(self) -> Optional[Failure]:
         return self.model.failure
 
     def refresh(self) -> JobManager:
@@ -74,7 +75,7 @@ class JobManager(Awaitable):
     def __target_file_zip(self) -> File:
         if not self.target_files:
             raise ApiException("No target files to download")
-        
+
         try:
             return next(filter(lambda f: f.name.endswith(".zip"), self.target_files))
         except StopIteration:

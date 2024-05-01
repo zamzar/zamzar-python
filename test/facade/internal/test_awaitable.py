@@ -57,7 +57,8 @@ class ImmediateFailure(Awaitable):
     def has_succeeded(self):
         return False
 
-    def get_failure(self):
+    @property
+    def failure(self):
         return Failure()
 
     def refresh(self):
@@ -71,7 +72,8 @@ class Unrefreshable(Awaitable):
     def has_succeeded(self):
         return False
 
-    def get_failure(self):
+    @property
+    def failure(self):
         return None
 
     def refresh(self):
@@ -85,7 +87,8 @@ class NeverCompletes(Awaitable):
     def has_succeeded(self):
         return False
 
-    def get_failure(self):
+    @property
+    def failure(self):
         return None
 
     def refresh(self):
@@ -103,7 +106,8 @@ class EventualSuccess(Awaitable):
     def has_succeeded(self):
         return self.has_completed()
 
-    def get_failure(self):
+    @property
+    def failure(self):
         return None
 
     def refresh(self):
