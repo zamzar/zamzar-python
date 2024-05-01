@@ -36,30 +36,62 @@ pip install --upgrade zamzar
 Please follow the [installation](#installation) instructions and execute the following Python code:
 
 ```python
-# TODO
+from zamzar import ZamzarClient
+
+zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
+
+zamzar.convert("/tmp/example.docx", "pdf").store("/tmp/").delete_all_files()
 ```
 
-See the [examples](TODO) to learn more
+See the [examples](https://github.com/zamzar/zamzar-python/tree/main/examples) to learn more
 about how to use the Zamzar Python library.
 
 ### Using the sandbox environment
 
-Whilst developing your application, you can use the Zamzar sandbox environment to test your code without consuming
+Whilst developing your application, you can use the lZamzar sandbox environment to test your code without consuming
 production credits:
 
 ```python
-# TODO
+from zamzar import ZamzarClient, Environment
+
+zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 ```
 
 The Zamzar Python library uses the production environment by default, but you can also specify it explicitly:
 
 ```python
-# TODO
+from zamzar import ZamzarClient, Environment
+
+zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.PRODUCTION)
 ```
 
 ### Logging
 
-By default, the Zamzar Python library does not log HTTP requests and responses. To enable logging, TODO.
+By default, the Zamzar Python library does not log HTTP requests and responses. To enable logging, configure a
+[logging.Logger](https://docs.python.org/3/library/logging.html#logging.Logger) for `urllib3`:
+
+```python
+import logging
+
+from zamzar import ZamzarClient
+
+# Configure logging as needed. Here we configure a simple console logger
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)  # Set the logging level for the console handler
+console_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(console_formatter)
+root_logger = logging.getLogger()
+root_logger.addHandler(console_handler)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Enable logging for urllib3 to see HTTP requests
+urllib3_logger = logging.getLogger('urllib3')
+urllib3_logger.setLevel(logging.DEBUG)
+
+# Make a request to the Zamzar API
+zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
+zamzar.account.get()
+```
 
 ### Configuring timeouts and retries
 
@@ -80,7 +112,7 @@ the `ZamzarClient` constructor:
 
 ## Resources
 
-[Code Samples](TODO) - Copy/Paste from
+[Code Samples](https://github.com/zamzar/zamzar-python/tree/main/examples) - Copy/Paste from
 examples which demonstrate all key areas of functionality.
 
 [Developer Docs](https://developers.zamzar.com/docs) - For more information about API operations, parameters, and
