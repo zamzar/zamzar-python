@@ -21,8 +21,27 @@ class Environment(Enum):
     SANDBOX = "https://sandbox.zamzar.com"
 
 
+DEFAULT_RETRY_POLICY = urllib3.Retry(
+    # Retry all HTTP methods
+    allowed_methods=None,
+    # Exponential backoff at 2^x seconds (i.e., 1s, 2s, 4s, 8s, 16s, ...)
+    backoff_factor=1,
+    # Never exceed 60 seconds between retries
+    backoff_max=60,
+    # Return the response once all retries have been exhausted
+    raise_on_status=False,
+    # Respect the Retry-After header if present
+    respect_retry_after_header=True,
+    # Retry on these status codes
+    status_forcelist=[429, 502, 503, 504],
+    # Retry at most 10 times (meaning maximum elapsed time of approx. 5 minutes)
+    # 1 + 2 + 4 + 8 + 16 + 32 + 60 + 60 + 60 + 60 = 303 seconds
+    total=10,
+)
+
 HTTP_CONNECTION_TIMEOUT = 15.0
 HTTP_READ_TIMEOUT = 30.0
+DEFAULT_TIMEOUT_POLICY = urllib3.Timeout(connect=HTTP_CONNECTION_TIMEOUT, read=HTTP_READ_TIMEOUT)
 
 CREDITS_REMAINING_HEADER = "Zamzar-Credits-Remaining";
 TEST_CREDITS_REMAINING_HEADER = "Zamzar-Test-Credits-Remaining";
@@ -34,8 +53,8 @@ class ZamzarClient:
             api_key: str,
             environment: Environment = Environment.PRODUCTION,
             host: Optional[str] = None,
-            retries: urllib3.Retry = urllib3.Retry(total=5, status_forcelist=[502, 503, 504]),
-            timeout: urllib3.Timeout = urllib3.Timeout(connect=HTTP_CONNECTION_TIMEOUT, read=HTTP_READ_TIMEOUT),
+            retries: urllib3.Retry = DEFAULT_RETRY_POLICY,
+            timeout: urllib3.Timeout = DEFAULT_TIMEOUT_POLICY,
     ):
         host = host or environment.value
         configuration = Configuration(access_token=api_key, host=host)

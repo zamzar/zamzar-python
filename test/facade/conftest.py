@@ -1,3 +1,5 @@
+import json
+from http.client import HTTPMessage
 from urllib.parse import urlparse
 
 import pytest
@@ -62,6 +64,31 @@ def failing_job_id() -> int:
 def file_id() -> int:
     """The ID of a file that is guaranteed to exist in the mock server."""
     return 1
+
+
+@pytest.fixture
+def set_fake_responses(mocker):
+    def _set_fake_responses(responses):
+        getconn_mock = mocker.patch("urllib3.connectionpool.HTTPConnectionPool._get_conn")
+        getconn_mock.return_value.getresponse.side_effect = responses
+
+    return _set_fake_responses
+
+
+@pytest.fixture
+def create_mock_response(mocker):
+    def _create_mock_response(status: int, headers: dict = None, json_body: dict = None):
+        if headers is None:
+            headers = {}
+        if json_body is None:
+            json_body = {}
+        response = mocker.Mock(status=status, msg=HTTPMessage(), headers=headers)
+        response.data = json.dumps(json_body).encode("utf-8")
+        # Need to satisfy the urllib3 response interface
+        response.get_redirect_location.return_value = None
+        return response
+
+    return _create_mock_response
 
 
 @pytest.fixture

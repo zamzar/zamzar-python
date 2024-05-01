@@ -1,5 +1,4 @@
 import pytest
-from urllib3 import PoolManager
 
 from zamzar import Environment, ZamzarClient
 from zamzar.exceptions import NotFoundException
@@ -126,61 +125,45 @@ class TestZamzarClient:
         assert zamzar.timeout.connect_timeout == 15.0
         assert zamzar.timeout.read_timeout == 30.0
 
-    def test_captures_latest_credit_usage(self, zamzar):
+    def test_retries_on_server_error(self, zamzar, set_fake_responses, create_mock_response):
+        """Test that the ZamzarClient retries on server error."""
+        set_fake_responses([
+            create_mock_response(503),
+            create_mock_response(503),
+            create_mock_response(200, json_body={"credits_remaining": 42}),
+        ])
+
+        account = zamzar.account.get()
+        assert account.credits_remaining is not None
+
+    def test_retries_on_rate_limited(self, zamzar, set_fake_responses, create_mock_response):
+        """Test that the ZamzarClient retries on server error."""
+        set_fake_responses([
+            create_mock_response(429, json_body={"message": "Rate limit exceeded"}),
+            create_mock_response(429, json_body={"message": "Rate limit exceeded"}),
+            create_mock_response(200, json_body={"credits_remaining": 42}),
+        ])
+
+        account = zamzar.account.get()
+        assert account.credits_remaining is not None
+
+    def test_captures_latest_credit_usage(self, zamzar, set_fake_responses, create_mock_response):
         """Test that the ZamzarClient captures the latest credit usage."""
         # should be None before any request has been made
         assert zamzar.last_production_credits_remaining is None
         assert zamzar.last_sandbox_credits_remaining is None
 
+        set_fake_responses([
+            create_mock_response(
+                200,
+                headers={"Zamzar-Credits-Remaining": "42", "Zamzar-Test-Credits-Remaining": "24"},
+                json_body={"data": [], "paging": {"total_count": 0}},
+            ),
+        ])
+
         # make a request
-        zamzar.pool_manager = HardcodedCreditUsagePoolManager(zamzar.pool_manager, production=42, sandbox=24)
         zamzar.jobs.list()
 
         # should capture the latest credit usage
         assert zamzar.last_production_credits_remaining == 42
         assert zamzar.last_sandbox_credits_remaining == 24
-
-    # def test_retries_on_server_error(self, zamzar):
-    #     """Test that the ZamzarClient retries on server error."""
-    #     zamzar.pool_manager = HardcodedResponsePoolManager(zamzar.pool_manager, status=503, pass_through_after=2)
-    #     account = zamzar.account.get()
-    #     assert account.credits_remaining is not None
-
-
-class HardcodedCreditUsagePoolManager(PoolManager):
-    def __init__(self, delegate: PoolManager, production: int, sandbox: int):
-        super().__init__()
-        self.__delegate = delegate
-        self.production = production
-        self.sandbox = sandbox
-
-    def request(self, method, url, *args, **kwargs):
-        response = self.__delegate.request(method, url, *args, **kwargs)
-        response.headers["Zamzar-Credits-Remaining"] = str(self.production)
-        response.headers["Zamzar-Test-Credits-Remaining"] = str(self.sandbox)
-        return response
-
-    def __getattr__(self, name):
-        # Delegate all attribute accesses to the delegate object
-        return getattr(self.__delegate, name)
-
-
-class HardcodedResponsePoolManager(PoolManager):
-    def __init__(self, delegate: PoolManager, status: int, pass_through_after: int):
-        super().__init__()
-        self.__delegate = delegate
-        self.status = status
-        self.pass_through_after = pass_through_after
-        self.counter = 0
-
-    def request(self, method, url, *args, **kwargs):
-        self.counter += 1
-        if self.counter > self.pass_through_after:
-            return self.__delegate.request(method, url, *args, **kwargs)
-        response = self.__delegate.request(method, url, *args, **kwargs)
-        response.status = self.status
-        return response
-
-    def __getattr__(self, name):
-        # Delegate all attribute accesses to the delegate object
-        return getattr(self.__delegate, name)
