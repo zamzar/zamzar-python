@@ -9,14 +9,14 @@ class TestImportManager:
     def test_await(self, zamzar, succeeding_import_id):
         """Test the await method."""
         assert zamzar.imports.find(succeeding_import_id).await_completion().has_succeeded()
-        assert zamzar.imports.find(succeeding_import_id).await_completion().get_failure() is None
+        assert zamzar.imports.find(succeeding_import_id).await_completion().failure is None
         assert zamzar.imports.find(succeeding_import_id).await_completion(throw_on_failure=True).has_succeeded()
 
     def test_await_failing(self, zamzar, failing_import_id):
         """Test the await method for a failing import."""
         assert zamzar.imports.find(failing_import_id).await_completion().has_failed()
-        assert zamzar.imports.find(failing_import_id).await_completion().get_failure().code is not None
-        assert zamzar.imports.find(failing_import_id).await_completion().get_failure().message is not None
+        assert zamzar.imports.find(failing_import_id).await_completion().failure.code is not None
+        assert zamzar.imports.find(failing_import_id).await_completion().failure.message is not None
         with pytest.raises(ApiException):
             zamzar.imports.find(failing_import_id).await_completion(throw_on_failure=True)
 
