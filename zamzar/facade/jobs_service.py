@@ -76,7 +76,7 @@ class JobsService:
             source_file_id = source
         elif isinstance(source, str) and self.__is_url(source):
             filename = JobsService._infer_filename(source, source_format)
-            source_file_id = self._zamzar.imports.start(source, filename).await_completion().get_imported_file().id
+            source_file_id = self._zamzar.imports.start(source, filename).await_completion().imported_file.id
         elif Path(source).exists():
             source_file_id = self._zamzar.upload(source).id
         else:
