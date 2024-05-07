@@ -4,7 +4,7 @@
 
 __version__ = "0.0.10"
 
-__all__ = ["facade", "models", "pagination"]
+__all__ = ["facade", "models", "pagination", "Environment", "ZamzarClient"]
 
 from zamzar.exceptions import ApiException
 from zamzar.facade.zamzar_client import Environment, ZamzarClient
