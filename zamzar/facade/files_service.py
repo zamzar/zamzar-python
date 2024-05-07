@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Union
 
 from zamzar.api import FilesApi
 from zamzar.facade.file_manager import FileManager
@@ -15,8 +16,8 @@ class FilesService:
     def delete(self, file_id) -> FileManager:
         return self.__to_file(self._api.delete_file_by_id(file_id=file_id))
 
-    def download(self, file_id, target: Path) -> FileManager:
-        return self.find(file_id).download(target)
+    def download(self, file_id, target: Union[str, Path]) -> FileManager:
+        return self.find(file_id).download(Path(target))
 
     def find(self, file_id) -> FileManager:
         return self.__to_file(self._api.get_file_by_id(file_id=file_id))

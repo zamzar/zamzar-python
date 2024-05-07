@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Union
+
 from zamzar.models import File
 
 
@@ -14,8 +17,8 @@ class FileManager:
         self._zamzar.files.delete(self.id)
         return self
 
-    def download(self, target) -> FileManager:
-        self._zamzar.files._download_model(self.model, target)
+    def download(self, target: Union[str, Path]) -> FileManager:
+        self._zamzar.files._download_model(self.model, Path(target))
         return self
 
     def to_str(self) -> str:

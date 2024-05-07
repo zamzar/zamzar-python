@@ -1,5 +1,6 @@
 from enum import Enum
-from typing import Optional
+from pathlib import Path
+from typing import Optional, Union
 
 import urllib3
 
@@ -116,8 +117,8 @@ class ZamzarClient:
             .create(source, target_format, source_format, export_url, options) \
             .await_completion()
 
-    def download(self, file_id, target) -> FileManager:
-        return self.files.download(file_id, target)
+    def download(self, file_id, target: Union[str, Path]) -> FileManager:
+        return self.files.download(file_id, Path(target))
 
     def get_production_credits_remaining(self) -> int:
         return self.account.get().credits_remaining or 0
