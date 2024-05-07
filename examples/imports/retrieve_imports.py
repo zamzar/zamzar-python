@@ -8,14 +8,14 @@ _import = zamzar.imports.find(123456).model
 print(f"Import ID: {_import.id} was created at {_import.created_at}")
 
 # List imports (returns at most 50 imports at a time)
-for _import in zamzar.imports.list().items:
-    print(f"Import ID: {_import.id} was created at {_import.created_at}")
+for i in zamzar.imports.list().items:
+    print(f"Import ID: {i.model.id} was created at {i.model.created_at}")
 
 # To page through all imports, use the nextPage method:
 current_page = zamzar.imports.list()
 while True:
-    for _import in current_page.items:
-        print(f"Import ID: {_import.id} was created at {_import.created_at}")
+    for i in current_page.items:
+        print(f"Import ID: {i.model.id} was created at {i.model.created_at}")
     current_page = current_page.next_page()
     if len(current_page.items) == 0:
         break

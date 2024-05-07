@@ -11,7 +11,7 @@ print(f"File ID: {file.id} was created at {file.created_at}")
 for file_manager in zamzar.files.list().items:
     print(f"File ID: {file_manager.model.id} was created at {file_manager.model.created_at}")
 
-# To page through all formats, use the next_page method:
+# To page through all files, use the next_page method:
 current_page = zamzar.files.list()
 while True:
     for file_manager in current_page.items:
