@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import zipfile
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 from zamzar.models import Failure
 from zamzar.models import File
@@ -59,8 +59,9 @@ class JobManager(Awaitable):
     def refresh(self) -> JobManager:
         return self._zamzar.jobs.find(self.id)
 
-    def store(self, target) -> JobManager:
+    def store(self, target: Union[str, Path]) -> JobManager:
         source = self.__primary_target_file()
+        target = Path(target)
         destination = self._zamzar.files._download_model(source, target)
         if len(self.target_file_ids) > 1:
             JobManager.__extract(destination)
