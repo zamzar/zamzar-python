@@ -18,8 +18,8 @@ from .welcome_service import WelcomeService
 
 
 class Environment(Enum):
-    PRODUCTION = "https://api.zamzar.com"
-    SANDBOX = "https://sandbox.zamzar.com"
+    PRODUCTION = "https://api.zamzar.com/v1"
+    SANDBOX = "https://sandbox.zamzar.com/v1"
 
 
 DEFAULT_RETRY_POLICY = urllib3.Retry(
