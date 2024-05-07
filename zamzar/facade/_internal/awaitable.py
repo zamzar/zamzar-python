@@ -1,13 +1,15 @@
 import time
 from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
-from typing import Optional
+from typing import Optional, List
 
 from zamzar import ApiException
 from zamzar.models import Failure
 
 
 class Awaitable(ABC):
+    """Awaits the completion of an asynchronous API operation."""
+
     __DEFAULT_BACKOFF = [
         timedelta(milliseconds=100),
         timedelta(milliseconds=100),
@@ -23,32 +25,21 @@ class Awaitable(ABC):
         timedelta(seconds=60)
     ]
 
-    @property
-    @abstractmethod
-    def failure(self) -> Optional[Failure]:
-        pass
-
-    @abstractmethod
-    def has_completed(self) -> bool:
-        pass
-
-    @abstractmethod
-    def has_succeeded(self) -> bool:
-        pass
-
-    @abstractmethod
-    def refresh(self):
-        pass
-
-    def has_failed(self) -> bool:
-        return self.has_completed() and not self.has_succeeded()
-
     def await_completion(
             self,
-            throw_on_failure=False,
-            timeout=timedelta(minutes=20),
-            backoff=None
+            throw_on_failure: bool = False,
+            timeout: timedelta = timedelta(minutes=20),
+            backoff: Optional[List[timedelta]] = None
     ):
+        """
+        Waits for the operation to succeed or fail, returning once it has.
+
+        :param throw_on_failure: whether to raise an exception if the operation fails (default: False)
+        :param timeout: the maximum time to wait (default: 20 minutes)
+        :param backoff: the time between retries: a singleton list results in a constant backoff, while a list of
+        increasing values results in exponential backoff (default: a reasonable exponential backoff)
+        """
+
         if backoff is None:
             backoff = Awaitable.__DEFAULT_BACKOFF
 
@@ -71,3 +62,23 @@ class Awaitable(ABC):
             raise ApiException("Waited for completion but failed")
 
         return current
+
+    @property
+    @abstractmethod
+    def failure(self) -> Optional[Failure]:
+        pass
+
+    @abstractmethod
+    def has_completed(self) -> bool:
+        pass
+
+    @abstractmethod
+    def has_succeeded(self) -> bool:
+        pass
+
+    @abstractmethod
+    def refresh(self):
+        pass
+
+    def has_failed(self) -> bool:
+        return self.has_completed() and not self.has_succeeded()

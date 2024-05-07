@@ -3,10 +3,13 @@ from typing import Optional
 from urllib3 import BaseHTTPResponse, PoolManager, Timeout, Retry
 
 
-# Wraps a PoolManager and:
-#   - keeps track of the latest response
-#   - adds our timeout and retry configuration to every request
 class ZamzarPoolManager(PoolManager):
+    """
+    Wraps a PoolManager and:
+    - keeps track of the latest response
+    - adds our timeout and retry configuration to every request
+    """
+
     def __init__(self, delegate: PoolManager, timeout: Timeout, retries: Retry):
         super().__init__()
         self.delegate = delegate
