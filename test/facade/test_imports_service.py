@@ -44,7 +44,7 @@ class TestImportsService:
         """Test that the ImportsService can start an import."""
         downloaded = tmp_path / "imported-file.txt"
         _import = zamzar.imports.start("s3://bucket-name/path/to/import").await_completion()
-        _import.get_imported_file().download(downloaded)
+        _import.imported_file.download(downloaded)
         assert_non_empty_file(downloaded)
 
     def test_start_for_url_with_unknown_filename_requires_filename_param(self, zamzar):

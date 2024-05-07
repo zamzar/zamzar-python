@@ -27,14 +27,15 @@ class ImportManager(Awaitable):
     def failure(self) -> Optional[Failure]:
         return self.model.failure
 
-    def refresh(self) -> ImportManager:
-        return self._zamzar.imports.find(self.id)
-
-    def get_imported_file(self) -> FileManager:
+    @property
+    def imported_file(self) -> FileManager:
         if not self.model.file:
             raise ValueError("Import has not completed yet")
 
         return FileManager(self._zamzar, self.model.file)
+
+    def refresh(self) -> ImportManager:
+        return self._zamzar.imports.find(self.id)
 
     def to_str(self) -> str:
         return f"ImportManager(id={self.id})"
