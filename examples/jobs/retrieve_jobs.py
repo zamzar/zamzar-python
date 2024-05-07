@@ -8,14 +8,14 @@ job = zamzar.jobs.find(123456).model
 print(f"Job ID: {job.id} was created at {job.created_at}")
 
 # List jobs (returns at most 50 jobs at a time)
-for job in zamzar.jobs.list().items:
-    print(f"Job ID: {job.id} was created at {job.created_at}")
+for j in zamzar.jobs.list().items:
+    print(f"Job ID: {j.model.id} was created at {j.model.created_at}")
 
 # To page through all jobs, use the next_page method:
 current_page = zamzar.jobs.list()
 while True:
-    for job in current_page.items:
-        print(f"Job ID: {job.id} was created at {job.created_at}")
+    for j in current_page.items:
+        print(f"Job ID: {j.model.id} was created at {j.model.created_at}")
     current_page = current_page.next_page()
     if len(current_page.items) == 0:
         break

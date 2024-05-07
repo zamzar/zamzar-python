@@ -21,7 +21,7 @@ class Paged(Generic[ITEM]):
         self._paging = paging
 
     @property
-    def items(self):
+    def items(self) -> List[ITEM]:
         return self._items
 
     def next_page(self):
