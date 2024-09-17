@@ -1,12 +1,17 @@
-# Zamzar Python
+# Python file converter library for Zamzar
 
 [![@zamzar on Twitter](https://img.shields.io/badge/twitter-zamzar-blue)](https://twitter.com/zamzar)
 [![pypi version](https://img.shields.io/pypi/v/zamzar.svg)](https://pypi.python.org/pypi/zamzar)
 [![GitHub License](https://img.shields.io/github/license/zamzar/zamzar-mock)](https://github.com/zamzar/zamzar-mock/blob/main/LICENSE)
 
-The official Python SDK for the [Zamzar API](https://developers.zamzar.com).
+Easy to use Python file conversion API with support for 1,100+ file conversions - convert documents, audio, images, video, eBooks and more. Use `zamzar-python` to convert files between different formats as part of your Python application with the [Zamzar file conversion API](https://developers.zamzar.com). Common use cases include:
 
-`zamzar-python` makes it easy to convert files between different formats as part of your Python applications.
+- Convert Microsoft Word (DOCX, DOC) to PDF
+- Convert Powerpoint (PPT, PPTX) to JPG
+- Extract text from PDF files
+- Archive email (MSG files) to PDF
+
+This is the official Python SDK for the [Zamzar API](https://developers.zamzar.com).
 
 Jump to:
 
