@@ -1,7 +1,7 @@
 import pytest
 
-from zamzar.exceptions import NotFoundException
-from zamzar.pagination import after, before
+from zamzar_sdk.exceptions import NotFoundException
+from zamzar_sdk.pagination import after, before
 from .assertions import assert_non_empty_file
 
 

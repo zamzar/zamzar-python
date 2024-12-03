@@ -2,9 +2,9 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   httpUserAgent: zamzar-python-v1
   infoName: Zamzar
-  packageName: zamzar
+  packageName: zamzar_sdk
   packageUrl: https://github.com/zamzar/zamzar-python
-  projectName: zamzar
+  projectName: zamzar-sdk
 
 globalProperties:
   apiTests: false

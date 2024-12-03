@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "zamzar"
+name = "zamzar-sdk"
 version = "0.0.6"
 description = "Zamzar API"
 authors = ["Zamzar <api-sdks@zamzar.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
-keywords = ["OpenAPI", "OpenAPI-Generator", "Zamzar API"]
+repository = "https://github.com/zamzar/zamzar-python"
+keywords = ["Convert", "File Conversion", "API", "Zamzar API"]
 include = ["zamzar/py.typed"]
 
 [tool.poetry.dependencies]
@@ -36,7 +36,7 @@ extension-pkg-whitelist = "pydantic"
 files = [
     "examples",
     "test",
-    "zamzar",
+    "zamzar_sdk",
 ]
 # Note that the OpenAPI generated code does not pass strict checking, so it is disabled
 # strict = true

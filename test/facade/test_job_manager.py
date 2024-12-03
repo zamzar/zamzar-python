@@ -1,7 +1,7 @@
 import pytest
 
 from test.facade.assertions import assert_non_empty_file
-from zamzar import ApiException
+from zamzar_sdk import ApiException
 
 
 class TestJobManager:

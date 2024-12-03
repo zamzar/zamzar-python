@@ -1,7 +1,7 @@
 import pytest
 
-from zamzar import Environment, ZamzarClient
-from zamzar.exceptions import NotFoundException
+from zamzar_sdk import Environment, ZamzarClient
+from zamzar_sdk.exceptions import NotFoundException
 from .assertions import assert_non_empty_file
 
 

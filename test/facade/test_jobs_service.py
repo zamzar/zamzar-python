@@ -1,9 +1,9 @@
 import pytest
 
-from zamzar import ApiException
-from zamzar.facade.job_status import JobStatus
-from zamzar.facade.jobs_service import JobsService
-from zamzar.pagination import before
+from zamzar_sdk import ApiException
+from zamzar_sdk.facade.job_status import JobStatus
+from zamzar_sdk.facade.jobs_service import JobsService
+from zamzar_sdk.pagination import before
 
 
 class TestJobsService:

@@ -6,15 +6,16 @@
     Zamzar provides a simple API for fast, scalable, high-quality file conversion for 100s of formats.
 """  # noqa: E501
 
-from setuptools import setup, find_packages  # noqa: H301
 import os
+
+from setuptools import setup, find_packages  # noqa: H301
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 os.chdir(here)
 
 with open(
-    os.path.join(here, "README.md"), "r", encoding="utf-8"
+        os.path.join(here, "README.md"), "r", encoding="utf-8"
 ) as fp:
     long_description = fp.read()
 
@@ -24,7 +25,7 @@ with open(
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "zamzar"
+NAME = "zamzar-sdk"
 VERSION = "0.0.12"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
@@ -48,5 +49,5 @@ setup(
     license="MIT",
     long_description_content_type='text/markdown',
     long_description=long_description,
-    package_data={"zamzar": ["py.typed"]},
+    package_data={"zamzar_sdk": ["py.typed"]},
 )
