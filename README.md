@@ -2,7 +2,7 @@
 
 [![@zamzar on Twitter](https://img.shields.io/badge/twitter-zamzar-blue)](https://twitter.com/zamzar)
 [![pypi version](https://img.shields.io/pypi/v/zamzar-sdk.svg)](https://pypi.python.org/pypi/zamzar-sdk)
-[![GitHub License](https://img.shields.io/github/license/zamzar/zamzar-sdk)](https://github.com/zamzar/zamzar-sdk/blob/main/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/zamzar/zamzar-python)](https://github.com/zamzar/zamzar-python/blob/main/LICENSE)
 
 Easy to use Python file conversion API with support for 1,100+ file conversions - convert documents, audio, images,
 video, eBooks and more. Use `zamzar-python` to convert files between different formats as part of your Python
