@@ -25,7 +25,7 @@ with open(
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "zamzar-sdk"
+NAME = "zamzar_sdk"
 VERSION = "0.0.13"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
