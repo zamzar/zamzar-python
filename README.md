@@ -30,7 +30,7 @@ Jump to:
 
 ## Installation
 
-You can install `zamzar-python` using pip:
+You can install the Zamzar Python SDK using pip:
 
 ```bash
 pip install --upgrade zamzar-sdk
@@ -51,7 +51,7 @@ zamzar.convert("/tmp/example.docx", "pdf").store("/tmp/").delete_all_files()
 ```
 
 See the [examples](https://github.com/zamzar/zamzar-python/tree/main/examples) to learn more
-about how to use the Zamzar Python library.
+about how to use the Zamzar Python SDK.
 
 ### Using the sandbox environment
 
@@ -64,7 +64,7 @@ from zamzar_sdk import ZamzarClient, Environment
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 ```
 
-The Zamzar Python library uses the production environment by default, but you can also specify it explicitly:
+The Zamzar Python SDK uses the production environment by default, but you can also specify it explicitly:
 
 ```python
 from zamzar_sdk import ZamzarClient, Environment
@@ -74,7 +74,7 @@ zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.PRODUCTI
 
 ### Logging
 
-By default, the Zamzar Python library does not log HTTP requests and responses. To enable logging, configure a
+By default, the Zamzar Python SDK does not log HTTP requests and responses. To enable logging, configure a
 [logging.Logger](https://docs.python.org/3/library/logging.html#logging.Logger) for `urllib3`:
 
 ```python
@@ -102,7 +102,7 @@ zamzar.account.get()
 
 ### Configuring timeouts and retries
 
-The Zamzar Python library will automatically:
+The Zamzar Python SDK will automatically:
 
 * time out long-running requests
 * retry requests that fail or time out
