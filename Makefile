@@ -65,4 +65,4 @@ endif
 		-e TWINE_USERNAME=$(TWINE_USERNAME) \
 		-e TWINE_PASSWORD=$(TWINE_PASSWORD) \
 		python \
-		twine upload --repository testpypi dist/*
+		twine upload dist/*
