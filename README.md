@@ -31,7 +31,7 @@ Jump to:
 You can install `zamzar-python` using pip:
 
 ```bash
-pip install --upgrade zamzar
+pip install --upgrade zamzar-sdk
 ```
 
 ## Usage
@@ -41,7 +41,7 @@ pip install --upgrade zamzar
 Please follow the [installation](#installation) instructions and execute the following Python code:
 
 ```python
-from zamzar import ZamzarClient
+from zamzar_sdk import ZamzarClient
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
 
@@ -57,7 +57,7 @@ Whilst developing your application, you can use the lZamzar sandbox environment 
 production credits:
 
 ```python
-from zamzar import ZamzarClient, Environment
+from zamzar_sdk import ZamzarClient, Environment
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 ```
@@ -65,7 +65,7 @@ zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 The Zamzar Python library uses the production environment by default, but you can also specify it explicitly:
 
 ```python
-from zamzar import ZamzarClient, Environment
+from zamzar_sdk import ZamzarClient, Environment
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.PRODUCTION)
 ```
@@ -78,7 +78,7 @@ By default, the Zamzar Python library does not log HTTP requests and responses. 
 ```python
 import logging
 
-from zamzar import ZamzarClient
+from zamzar_sdk import ZamzarClient
 
 # Configure logging as needed. Here we configure a simple console logger
 console_handler = logging.StreamHandler()
@@ -115,7 +115,7 @@ to the `ZamzarClient` constructor:
 ```python
 import urllib3
 
-from zamzar import ZamzarClient
+from zamzar_sdk import ZamzarClient
 
 # Configure a custom retry policy
 custom_policy = urllib3.Retry(

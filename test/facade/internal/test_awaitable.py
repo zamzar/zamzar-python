@@ -3,9 +3,9 @@ from datetime import timedelta
 
 import pytest
 
-from zamzar import ApiException
-from zamzar.facade._internal import Awaitable
-from zamzar.models import Failure
+from zamzar_sdk import ApiException
+from zamzar_sdk.facade._internal import Awaitable
+from zamzar_sdk.models import Failure
 
 
 class TestAwaitable:

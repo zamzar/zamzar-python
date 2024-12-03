@@ -1,4 +1,4 @@
-from zamzar import ZamzarClient, Environment
+from zamzar_sdk import ZamzarClient, Environment
 
 # By default, a client will use the production environment
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")

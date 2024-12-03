@@ -1,4 +1,4 @@
-from zamzar.pagination import before
+from zamzar_sdk.pagination import before
 
 
 class TestFormatsService:
