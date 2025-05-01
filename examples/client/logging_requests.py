@@ -1,6 +1,6 @@
 import logging
 
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 # The Zamzar Python client uses `urllib3` for HTTP requests
 # To log HTTP requests, configure a `urllib3` logger, as shown below

@@ -25,7 +25,7 @@ with open(
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "zamzar_sdk"
+NAME = "zamzar"
 VERSION = "1.0.1"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
@@ -49,5 +49,5 @@ setup(
     license="MIT",
     long_description_content_type='text/markdown',
     long_description=long_description,
-    package_data={"zamzar_sdk": ["py.typed"]},
+    package_data={"zamzar": ["py.typed"]},
 )

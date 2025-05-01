@@ -1,4 +1,4 @@
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
 

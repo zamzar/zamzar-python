@@ -1,5 +1,5 @@
-from zamzar_sdk import ZamzarClient
-from zamzar_sdk.pagination import after
+from zamzar import ZamzarClient
+from zamzar.pagination import after
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
 

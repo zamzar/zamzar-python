@@ -9,4 +9,4 @@ README.md
 requirements.txt
 setup.py
 test-requirements.txt
-zamzar_sdk/__init__.py
+zamzar/__init__.py
