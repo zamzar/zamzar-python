@@ -19,7 +19,7 @@ endif
 
 # Note that the OpenAPI generator currently produces code that can fail the assignment mypy check in some cases;
 # so we add inline comments to ignore these errors
-SUPPRESS_MYPY_CMD = $(SED_INPLACE) -E 's/(for _item in self\.[^:]+:)/\1  \# type: ignore[assignment]/g' zamzar_sdk/models/*.py
+SUPPRESS_MYPY_CMD = $(SED_INPLACE) -E 's/(for _item in self\.[^:]+:)/\1  \# type: ignore[assignment]/g' zamzar/models/*.py
 
 up:
 	@docker compose up -d
@@ -50,7 +50,7 @@ endif
 	@$(eval CURRENT_VERSION=$(shell $(EXEC_CMD) python setup.py --version))
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" README.md
 	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" setup.py
-	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" zamzar_sdk/__init__.py
+	@$(EXEC_CMD) sed -i "s/$(CURRENT_VERSION)/$(VERSION)/g" zamzar/__init__.py
 	@$(GENERATOR_CMD) $(GENERATE_ARGS) --additional-properties=packageVersion=$(VERSION)
 	@$(SUPPRESS_MYPY_CMD)
 

@@ -7,7 +7,7 @@ import pytest
 import urllib3
 
 from test.facade.tracking_pool_manager import TrackingPoolManager
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 
 @pytest.fixture()

@@ -1,7 +1,7 @@
 # Python file converter library for Zamzar
 
 [![@zamzar on Twitter](https://img.shields.io/badge/twitter-zamzar-blue)](https://twitter.com/zamzar)
-[![pypi version](https://img.shields.io/pypi/v/zamzar-sdk.svg)](https://pypi.python.org/pypi/zamzar-sdk)
+[![pypi version](https://img.shields.io/pypi/v/zamzar.svg)](https://pypi.python.org/pypi/zamzar)
 [![GitHub License](https://img.shields.io/github/license/zamzar/zamzar-python)](https://github.com/zamzar/zamzar-python/blob/main/LICENSE)
 
 Easy to use Python file conversion API with support for 1,100+ file conversions - convert documents, audio, images,
@@ -33,7 +33,7 @@ Jump to:
 You can install the Zamzar Python SDK using pip:
 
 ```bash
-pip install --upgrade zamzar-sdk
+pip install --upgrade zamzar
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ pip install --upgrade zamzar-sdk
 Please follow the [installation](#installation) instructions and execute the following Python code:
 
 ```python
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE")
 
@@ -59,7 +59,7 @@ Whilst developing your application, you can use the lZamzar sandbox environment 
 production credits:
 
 ```python
-from zamzar_sdk import ZamzarClient, Environment
+from zamzar import ZamzarClient, Environment
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 ```
@@ -67,7 +67,7 @@ zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.SANDBOX)
 The Zamzar Python SDK uses the production environment by default, but you can also specify it explicitly:
 
 ```python
-from zamzar_sdk import ZamzarClient, Environment
+from zamzar import ZamzarClient, Environment
 
 zamzar = ZamzarClient("YOUR_API_KEY_GOES_HERE", environment=Environment.PRODUCTION)
 ```
@@ -80,7 +80,7 @@ By default, the Zamzar Python SDK does not log HTTP requests and responses. To e
 ```python
 import logging
 
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 # Configure logging as needed. Here we configure a simple console logger
 console_handler = logging.StreamHandler()
@@ -117,7 +117,7 @@ to the `ZamzarClient` constructor:
 ```python
 import urllib3
 
-from zamzar_sdk import ZamzarClient
+from zamzar import ZamzarClient
 
 # Configure a custom retry policy
 custom_policy = urllib3.Retry(

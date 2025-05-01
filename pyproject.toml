@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "zamzar-sdk"
+name = "zamzar"
 version = "0.0.6"
 description = "Zamzar API"
 authors = ["Zamzar <api-sdks@zamzar.com>"]
@@ -36,7 +36,7 @@ extension-pkg-whitelist = "pydantic"
 files = [
     "examples",
     "test",
-    "zamzar_sdk",
+    "zamzar",
 ]
 # Note that the OpenAPI generated code does not pass strict checking, so it is disabled
 # strict = true

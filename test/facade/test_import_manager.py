@@ -1,6 +1,6 @@
 import pytest
 
-from zamzar_sdk import ApiException
+from zamzar import ApiException
 
 
 class TestImportManager:
