@@ -7,6 +7,16 @@ zamzar \
     .convert("path/to/your/file.docx", "pdf") \
     .store("path/to/your/file.pdf")
 
+# Convert a local file that produces multiple output files (e.g. a multi-page PDF to PNGs)
+zamzar \
+    .convert("path/to/your/multipage.pdf", "png") \
+    .store("path/to/output_directory")
+
+# Convert a local file that produces multiple output files and download them as a ZIP file
+zamzar \
+    .convert("path/to/your/multipage.pdf", "png") \
+    .store("path/to/output.zip", extract_multiple_file_output=False)
+
 # Convert a remote file, wait for it to complete (or throw an exception if it fails), and download the result
 zamzar \
     .convert("https://www.zamzar.com/images/zamzar-logo.png", "jpg") \
