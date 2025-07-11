@@ -38,7 +38,8 @@ class TestJobManager:
         """Test that a multi-file job can be stored."""
         output = tmp_path / "output"
 
-        zamzar.jobs.find(succeeding_multi_output_job_id).await_completion().store(output)
+        job = zamzar.jobs.find(succeeding_multi_output_job_id)
+        job.await_completion().store(output)
         assert_non_empty_file(output)
 
         pngs = list(tmp_path.glob('*.png'))
@@ -51,11 +52,24 @@ class TestJobManager:
         pngs = list(tmp_path.glob('*.png'))
         assert len(pngs) == 0, "Sanity check: expected output files not to exist yet"
 
-        zamzar.jobs.find(succeeding_multi_output_job_id).await_completion().store(tmp_path)
+        job = zamzar.jobs.find(succeeding_multi_output_job_id)
+        job.await_completion().store(tmp_path)
         pngs = list(tmp_path.glob('*.png'))
         assert len(pngs) == 3
         for png in pngs:
             assert_non_empty_file(png)
+
+    def test_store_multi_file_job_no_extract(self, zamzar, succeeding_multi_output_job_id, tmp_path):
+        """Test that a multi-file job can be stored without extracting the ZIP file."""
+        output = tmp_path / "output.zip"
+
+        job = zamzar.jobs.find(succeeding_multi_output_job_id)
+        job.await_completion().store(output, extract_multiple_file_output=False)
+        assert_non_empty_file(output)
+
+        # The PNG files should NOT exist since we did not extract the ZIP
+        pngs = list(tmp_path.glob('*.png'))
+        assert len(pngs) == 0
 
     def test_store_throws_when_no_target_files(self, zamzar, failing_job_id, tmp_path):
         """Test that an exception is thrown when trying to store a job with no target files."""

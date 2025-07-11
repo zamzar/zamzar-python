@@ -72,15 +72,17 @@ class JobManager(Awaitable):
         """Returns the ID of the source file being converted."""
         return self.model.source_file.id if self.model.source_file else None
 
-    def store(self, target: Union[str, Path]) -> JobManager:
+    def store(self, target: Union[str, Path], extract_multiple_file_output: bool = True) -> JobManager:
         """
         Downloads all the target files produced by the conversion to the specified destination, blocking until the
         download is complete.
+
+        If extract_multiple_file_output is False and there are multiple target files, the ZIP file will not be extracted.
         """
         source = self.__primary_target_file()
         target = Path(target)
         destination = self._zamzar.files._download_model(source, target)
-        if len(self.target_file_ids) > 1:
+        if len(self.target_file_ids) > 1 and extract_multiple_file_output:
             JobManager.__extract(destination)
         return self
 
