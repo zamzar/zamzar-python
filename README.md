@@ -4,7 +4,7 @@
 [![pypi version](https://img.shields.io/pypi/v/zamzar.svg)](https://pypi.python.org/pypi/zamzar)
 [![GitHub License](https://img.shields.io/github/license/zamzar/zamzar-python)](https://github.com/zamzar/zamzar-python/blob/main/LICENSE)
 
-Easy to use Python file conversion API with support for 1,100+ file conversions - convert documents, audio, images,
+Easy to use Python file conversion API with support for 1.1.1+ file conversions - convert documents, audio, images,
 video, eBooks and more. Use `zamzar-python` to convert files between different formats as part of your Python
 application with the [Zamzar file conversion API](https://developers.zamzar.com). Common use cases include:
 
