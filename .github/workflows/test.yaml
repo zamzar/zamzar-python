@@ -5,8 +5,18 @@ on:
 
 jobs:
   test:
-    name: Run tests
+    name: Run tests for Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.7"  # Oldest supported
+          - "3.14" # Latest release
+
+    env:
+      PYTHON_VERSION: ${{ matrix.python-version }}
 
     steps:
       - name: Checkout repo
