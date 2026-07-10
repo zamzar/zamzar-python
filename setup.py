@@ -38,6 +38,7 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
+    python_requires=PYTHON_REQUIRES,
     description="Official Python client for the Zamzar API",
     author="Zamzar",
     author_email="api-sdks@zamzar.com",
