@@ -7,3 +7,14 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      # Ignore versions that are incompatible with Python 3.7
+      - dependency-name: setuptools
+        versions:
+          - ">=68.1"
+      - dependency-name: pytest-randomly
+        versions:
+          - ">=3.13"
+      - dependency-name: pytest-cov
+        versions:
+          - ">=5"
