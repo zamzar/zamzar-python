@@ -27,3 +27,13 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
+    ignore:
+      # Ignore versions that are incompatible with Python 3.7
+      # OpenAPI Generator 7.10 requires typing.Literal which was released in Python 3.8 via PEP 586)
+      # See:
+      #   - https://github.com/OpenAPITools/openapi-generator/pull/20014
+      #   - https://docs.python.org/3/whatsnew/3.8.html#typing
+      #   - https://peps.python.org/pep-0586/
+      - dependency-name: "openapitools/openapi-generator-cli"
+        versions:
+          - ">=7.10.0"
