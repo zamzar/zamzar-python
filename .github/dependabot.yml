@@ -20,3 +20,10 @@ updates:
       - dependency-name: pytest-cov
         versions:
           - ">=5"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
