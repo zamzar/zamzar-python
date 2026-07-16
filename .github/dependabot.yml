@@ -7,6 +7,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     ignore:
       # Ignore versions that are incompatible with Python 3.7
       - dependency-name: setuptools
