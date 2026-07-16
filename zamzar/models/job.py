@@ -113,16 +113,16 @@ class Job(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in target_files (list)
         _items = []
         if self.target_files:
-            for _item in self.target_files:  # type: ignore[assignment]
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_target_files in self.target_files:
+                if _item_target_files:
+                    _items.append(_item_target_files.to_dict())
             _dict['target_files'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in exports (list)
         _items = []
         if self.exports:
-            for _item in self.exports:  # type: ignore[assignment]
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_exports in self.exports:
+                if _item_exports:
+                    _items.append(_item_exports.to_dict())
             _dict['exports'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

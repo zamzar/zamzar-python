@@ -77,9 +77,9 @@ class Format(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in targets (list)
         _items = []
         if self.targets:
-            for _item in self.targets:  # type: ignore[assignment]
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_targets in self.targets:
+                if _item_targets:
+                    _items.append(_item_targets.to_dict())
             _dict['targets'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

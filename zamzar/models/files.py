@@ -78,9 +78,9 @@ class Files(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in data (list)
         _items = []
         if self.data:
-            for _item in self.data:  # type: ignore[assignment]
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_data in self.data:
+                if _item_data:
+                    _items.append(_item_data.to_dict())
             _dict['data'] = _items
         # override the default output from pydantic by calling `to_dict()` of paging
         if self.paging:
