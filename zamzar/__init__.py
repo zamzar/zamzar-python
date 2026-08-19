@@ -2,7 +2,7 @@
 
 # flake8: noqa
 
-__version__ = "1.1.5"
+__version__ = "2.0.0"
 
 __all__ = ["facade", "models", "pagination", "Environment", "ZamzarClient"]
 
