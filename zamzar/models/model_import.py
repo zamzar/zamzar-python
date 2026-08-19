@@ -25,6 +25,7 @@ from zamzar.models.failure import Failure
 from zamzar.models.file import File
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class ModelImport(BaseModel):
     """
@@ -33,7 +34,7 @@ class ModelImport(BaseModel):
     id: StrictInt = Field(description="The unique identifier assigned to the import")
     key: Optional[StrictStr] = Field(default=None, description="The API key used to create the import.")
     url: Optional[StrictStr] = Field(default=None, description="The URL to the file being imported.")
-    status: Optional[StrictStr] = Field(default=None, description="The current status of the import")
+    status: Optional[StrictStr] = Field(default=None, description="The current status of the import", json_schema_extra={"examples": ["failed"]})
     failure: Optional[Failure] = None
     file: Optional[File] = None
     created_at: Optional[datetime] = Field(default=None, description="The time at which the import was created on Zamzar servers ((UTC in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601)))")
@@ -52,7 +53,8 @@ class ModelImport(BaseModel):
         return value
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -64,8 +66,7 @@ class ModelImport(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:

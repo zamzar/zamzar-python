@@ -13,7 +13,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 # import models into model package
 from zamzar.models.account import Account
 from zamzar.models.account_plan import AccountPlan
@@ -34,3 +33,4 @@ from zamzar.models.model_import import ModelImport
 from zamzar.models.paging_numeric import PagingNumeric
 from zamzar.models.paging_string import PagingString
 from zamzar.models.welcome200_response import Welcome200Response
+
