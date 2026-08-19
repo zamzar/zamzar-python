@@ -119,7 +119,7 @@ class TestZamzarClient:
     def test_has_user_agent(self, zamzar_tracked):
         """Test that the ZamzarClient sends HTTP requests with a user agent."""
         zamzar_tracked.account.get()
-        assert "zamzar-python-v1" == zamzar_tracked.pool_manager.history[0].request.headers["User-Agent"]
+        assert "zamzar-python-v2" == zamzar_tracked.pool_manager.history[0].request.headers["User-Agent"]
 
     def test_has_timeouts(self, zamzar):
         assert zamzar.timeout.connect_timeout == 15.0
