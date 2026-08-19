@@ -9,17 +9,15 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
-    ignore:
-      # Ignore versions that are incompatible with Python 3.7
-      - dependency-name: setuptools
-        versions:
-          - ">=68.1"
-      - dependency-name: pytest-randomly
-        versions:
-          - ">=3.13"
-      - dependency-name: pytest-cov
-        versions:
-          - ">=5"
+    # Only routinely update **development** dependencies. Unlike our Java SDKs, Python dependencies are installed into
+    # the consumer's environment rather than shadowed into our SDK, so raising runtime dependency versions can force
+    # upgrades on consumers. Runtime dependencies are therefore only updated when necessary (typically through
+    # Dependabot security updates).
+    allow:
+      - dependency-type: "development"
+    groups:
+      development-dependencies:
+        dependency-type: "development"
 
   - package-ecosystem: "docker-compose"
     directory: "/"
