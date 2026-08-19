@@ -23,19 +23,21 @@ from typing import Any, ClassVar, Dict, List, Optional
 from zamzar.models.error_context import ErrorContext
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class Error(BaseModel):
     """
     An error object containing a message, code and context. Returned within an array of `errors` when a response contains a `4xx` or `5xx` code.
     """ # noqa: E501
-    code: Optional[StrictInt] = Field(default=None, description="The unique identifier for the type of error. `1x` relates to problems with the content of the request. `2x` relates to the nature of the request. `3x` relates to problems with the service.")
-    message: Optional[StrictStr] = Field(default=None, description="The description of the error")
+    code: Optional[StrictInt] = Field(default=None, description="The unique identifier for the type of error. `1x` relates to problems with the content of the request. `2x` relates to the nature of the request. `3x` relates to problems with the service.", json_schema_extra={"examples": [22]})
+    message: Optional[StrictStr] = Field(default=None, description="The description of the error", json_schema_extra={"examples": ["unrecognised API version"]})
     context: Optional[ErrorContext] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["code", "message", "context"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -47,8 +49,7 @@ class Error(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:

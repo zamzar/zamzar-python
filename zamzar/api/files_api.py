@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Zamzar API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -585,7 +584,7 @@ class FilesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> bytearray:
+    ) -> bytes:
         """Retrieve the content of a file
 
         Retrieve the contents of a file which has been converted using the `/jobs` endpoint. The content of files which have been uploaded or converted can also be retrieved.
@@ -623,7 +622,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
             '201': None,
             '307': None,
         }
@@ -654,7 +653,7 @@ class FilesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[bytearray]:
+    ) -> ApiResponse[bytes]:
         """Retrieve the content of a file
 
         Retrieve the contents of a file which has been converted using the `/jobs` endpoint. The content of files which have been uploaded or converted can also be retrieved.
@@ -692,7 +691,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
             '201': None,
             '307': None,
         }
@@ -761,7 +760,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
             '201': None,
             '307': None,
         }
@@ -1156,7 +1155,7 @@ class FilesApi:
         Upload a local file which can be used as input to a conversion job. Ensure the file is a [format supported by the API](https://developers.zamzar.com/formats) and does not exceed the maximum size of [your plan](https://developers.zamzar.com/user).
 
         :param content: Provide the file to be uploaded
-        :type content: bytearray
+        :type content: bytes
         :param name: Specify the name of the file
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1227,7 +1226,7 @@ class FilesApi:
         Upload a local file which can be used as input to a conversion job. Ensure the file is a [format supported by the API](https://developers.zamzar.com/formats) and does not exceed the maximum size of [your plan](https://developers.zamzar.com/user).
 
         :param content: Provide the file to be uploaded
-        :type content: bytearray
+        :type content: bytes
         :param name: Specify the name of the file
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1298,7 +1297,7 @@ class FilesApi:
         Upload a local file which can be used as input to a conversion job. Ensure the file is a [format supported by the API](https://developers.zamzar.com/formats) and does not exceed the maximum size of [your plan](https://developers.zamzar.com/user).
 
         :param content: Provide the file to be uploaded
-        :type content: bytearray
+        :type content: bytes
         :param name: Specify the name of the file
         :type name: str
         :param _request_timeout: timeout setting for this request. If one

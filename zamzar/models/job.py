@@ -27,24 +27,25 @@ from zamzar.models.file import File
 from zamzar.models.model_import import ModelImport
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class Job(BaseModel):
     """
     Represents the process of converting a file to another format.
     """ # noqa: E501
-    id: StrictInt = Field(description="The unique identifier assigned to the job")
-    key: Optional[StrictStr] = Field(default=None, description="The API key used to create the job")
-    status: Optional[StrictStr] = Field(default=None, description="The current status of the job")
+    id: StrictInt = Field(description="The unique identifier assigned to the job", json_schema_extra={"examples": [1]})
+    key: Optional[StrictStr] = Field(default=None, description="The API key used to create the job", json_schema_extra={"examples": ["apikey"]})
+    status: Optional[StrictStr] = Field(default=None, description="The current status of the job", json_schema_extra={"examples": ["failed"]})
     failure: Optional[Failure] = None
-    sandbox: Optional[StrictBool] = Field(default=None, description="Indicates whether or not the job was processed on the developer sandbox (i.e. at no cost)")
-    created_at: Optional[datetime] = Field(default=None, description="The time at which the job was created (UTC in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601))")
-    finished_at: Optional[datetime] = Field(default=None, description="The time at which the job finished if successful, or null otherwise (UTC in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601))")
+    sandbox: Optional[StrictBool] = Field(default=None, description="Indicates whether or not the job was processed on the developer sandbox (i.e. at no cost)", json_schema_extra={"examples": [False]})
+    created_at: Optional[datetime] = Field(default=None, description="The time at which the job was created (UTC in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601))", json_schema_extra={"examples": ["2022-01-01T14:15:22Z"]})
+    finished_at: Optional[datetime] = Field(default=None, description="The time at which the job finished if successful, or null otherwise (UTC in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601))", json_schema_extra={"examples": ["2022-01-01T14:15:22Z"]})
     var_import: Optional[ModelImport] = Field(default=None, alias="import")
     source_file: Optional[File] = None
     target_files: Optional[List[File]] = Field(default=None, description="The output from the job")
-    target_format: Optional[StrictStr] = Field(default=None, description="The name of the format to which `source_file` is being converted")
-    credit_cost: Optional[StrictInt] = Field(default=None, description="The cost in conversion credits of the job")
-    export_url: Optional[StrictStr] = Field(default=None, description="The location to which all converted files will be copied")
+    target_format: Optional[StrictStr] = Field(default=None, description="The name of the format to which `source_file` is being converted", json_schema_extra={"examples": ["bmp"]})
+    credit_cost: Optional[StrictInt] = Field(default=None, description="The cost in conversion credits of the job", json_schema_extra={"examples": [1]})
+    export_url: Optional[StrictStr] = Field(default=None, description="The location to which all converted files will be copied", json_schema_extra={"examples": ["s3://CREDENTIAL_NAME@my-bucket-name/logo.jpg"]})
     exports: Optional[List[Export]] = Field(default=None, description="An array of objects representing the process of copying converted files to the location specified in the export_url (when submitting a job via the `/jobs` endpoint)")
     options: Optional[Dict[str, Any]] = Field(default=None, description="Additional options for the conversion")
     additional_properties: Dict[str, Any] = {}
@@ -61,7 +62,8 @@ class Job(BaseModel):
         return value
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -73,8 +75,7 @@ class Job(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
