@@ -1,9 +1,9 @@
-ARG PYTHON_VERSION=3.7
+ARG PYTHON_VERSION=3.11
 FROM python:${PYTHON_VERSION}-bookworm
 
 WORKDIR /usr/src/app
 
-RUN pip install --upgrade build twine
+RUN pip install --upgrade pip build twine
 
 COPY requirements.txt ./
 COPY test-requirements.txt ./
