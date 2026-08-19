@@ -1,5 +1,5 @@
 pydantic>=2.5.3
-python_dateutil>=2.5.3
-setuptools>=68.0,<68.1
+python_dateutil>=2.9.0.post0
+setuptools>=83.0.0
 typing-extensions>=4.7.1
-urllib3>=2.0.2
+urllib3>=2.7.0
