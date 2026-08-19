@@ -29,9 +29,9 @@ NAME = "zamzar"
 VERSION = "1.1.5"
 PYTHON_REQUIRES = ">=3.11"
 REQUIRES = [
-    "urllib3 >= 1.25.3, < 2.1.0",
-    "python-dateutil",
-    "pydantic >= 2",
+    "urllib3 >= 2.7.0",
+    "python-dateutil >= 2.9.0.post0",
+    "pydantic >= 2.5.3",
     "typing-extensions >= 4.7.1",
 ]
 
