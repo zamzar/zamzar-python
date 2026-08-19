@@ -26,7 +26,7 @@ Jump to:
 
 - Before you begin, signup for a Zamzar API Account or retrieve your existing API Key from
   the [Zamzar Developers Homepage](https://developers.zamzar.com/user)
-- Python 3.7 and later
+- Python 3.11 and later. (See [Compatibility](#compatibility) for more information).
 
 ## Installation
 
@@ -139,3 +139,13 @@ examples which demonstrate all key areas of functionality.
 
 [Developer Docs](https://developers.zamzar.com/docs) - For more information about API operations, parameters, and
 responses. Use this if you need additional context on all areas of functionality.
+
+## Compatibility
+
+This SDK requires Python 3.11 or later. Earlier SDK versions support older Python versions (see below), but those SDK
+releases are no longer maintained. We encourage you to upgrade to a supported Python and SDK version wherever possible.
+
+| Zamzar Python Version | Compatible Python Versions |
+|-----------------------|----------------------------|
+| 1.x                   | 3.7 to 3.14                |
+| 2.x                   | 3.11 or later              |

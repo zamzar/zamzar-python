@@ -10,7 +10,7 @@ keywords = ["Convert", "File Conversion", "API", "Zamzar API"]
 include = ["zamzar/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.11"
 
 urllib3 = ">= 1.25.3"
 python-dateutil = ">=2.9.0.post0"

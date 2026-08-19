@@ -27,7 +27,7 @@ with open(
 # http://pypi.python.org/pypi/setuptools
 NAME = "zamzar"
 VERSION = "1.1.5"
-PYTHON_REQUIRES = ">=3.7"
+PYTHON_REQUIRES = ">=3.11"
 REQUIRES = [
     "urllib3 >= 1.25.3, < 2.1.0",
     "python-dateutil",
