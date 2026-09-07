@@ -78,8 +78,7 @@ class Errors(BaseModel):
         _items = []
         if self.errors:
             for _item_errors in self.errors:
-                if _item_errors:
-                    _items.append(_item_errors.to_dict())
+                _items.append(_item_errors.to_dict() if _item_errors is not None else None)
             _dict['errors'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

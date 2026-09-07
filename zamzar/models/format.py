@@ -79,8 +79,7 @@ class Format(BaseModel):
         _items = []
         if self.targets:
             for _item_targets in self.targets:
-                if _item_targets:
-                    _items.append(_item_targets.to_dict())
+                _items.append(_item_targets.to_dict() if _item_targets is not None else None)
             _dict['targets'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
